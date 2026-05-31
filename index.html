@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Khám phá Lịch sử hình thành, sự phát triển, các nước thành viên, thành tựu và câu chuyện hội nhập đầy tự hào của Việt Nam trong ngôi nhà chung ASEAN.">
+  <meta name="keywords" content="Lịch sử ASEAN, Thành lập ASEAN, Tuyên bố Bangkok 1967, Thành viên ASEAN, Việt Nam gia nhập ASEAN, Cộng đồng ASEAN, Trắc nghiệm ASEAN">
+  <meta name="author" content="Antigravity AI">
+  
+  <title>Lịch Sử ASEAN - Hành Trình Kiến Tạo Hòa Bình và Thịnh Vượng</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Flag_of_ASEAN.svg/640px-Flag_of_ASEAN.svg.png">
+  
+  <!-- Google Fonts: Poppins cho tiêu đề và Be Vietnam Pro cho nội dung tiếng Việt sắc nét -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- File CSS chính -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="light-mode">
+
+  <!-- Màn hình Loading -->
+  <div id="loader" class="loader-wrapper">
+    <div class="loader-content">
+      <div class="loader-spinner"></div>
+      <p class="loader-text">Đang tải trang lịch sử...</p>
+    </div>
+  </div>
+
+  <!-- Thanh tiến độ cuộn trang (Scroll Progress Bar) -->
+  <div id="scroll-progress" class="scroll-progress-bar"></div>
+
+  <!-- Header & Thanh điều hướng (Navbar) -->
+  <header id="header">
+    <div class="header-container">
+      <a href="#home" class="logo">
+        <img src="images/asean_logo.png" alt="Logo ASEAN" class="logo-img">
+      </a>
+      
+      <!-- Hamburger Icon cho Mobile -->
+      <button class="menu-toggle" id="menu-toggle" aria-label="Mở Menu">
+        <i data-lucide="menu"></i>
+      </button>
+
+      <nav class="nav-menu" id="nav-menu">
+        <ul>
+          <li><a href="#home" class="nav-link active">Trang chủ</a></li>
+          <li><a href="#intro" class="nav-link">Giới thiệu</a></li>
+          <li><a href="#background" class="nav-link">Bối cảnh</a></li>
+          <li><a href="#timeline" class="nav-link">Dòng thời gian</a></li>
+          <li><a href="#members" class="nav-link">Thành viên</a></li>
+          <li><a href="#goals" class="nav-link">Mục tiêu</a></li>
+          <li><a href="#achievements" class="nav-link">Thành tựu</a></li>
+          <li><a href="#vietnam" class="nav-link">Việt Nam</a></li>
+          <li><a href="#gallery" class="nav-link">Hình ảnh</a></li>
+          <li><a href="#quiz" class="nav-link">Quiz</a></li>
+        </ul>
+      </nav>
+
+      <!-- Nút đổi Dark Mode -->
+      <button id="theme-toggle" class="theme-toggle-btn" aria-label="Đổi chế độ sáng tối">
+        <i data-lucide="moon" class="theme-icon-dark"></i>
+        <i data-lucide="sun" class="theme-icon-light"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- 1. HERO SECTION -->
+  <section id="home" class="hero-section">
+    <div class="hero-bg-overlay"></div>
+    <div class="hero-container">
+      <div class="hero-content fade-in-up">
+        <span class="hero-badge">Kỷ niệm thành lập ASEAN (1967 - Nay)</span>
+        <h1 class="hero-title">Lịch Sử ASEAN</h1>
+        <p class="hero-subtitle">Một liên minh vững bền, gắn kết các quốc gia Đông Nam Á trong tinh thần hữu nghị, hợp tác và khát vọng thịnh vượng chung.</p>
+        <div class="hero-buttons">
+          <a href="#timeline" class="btn btn-primary">
+            <span>Khám phá lịch sử</span>
+            <i data-lucide="arrow-down"></i>
+          </a>
+          <a href="#quiz" class="btn btn-secondary">
+            <span>Thử thách Quiz</span>
+            <i data-lucide="award"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <!-- Hiệu ứng chuyển động sóng nước ở đáy Hero -->
+    <div class="hero-wave">
+      <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,42.4V0Z" class="shape-fill"></path>
+      </svg>
+    </div>
+  </section>
+
+  <main>
+    <!-- 2. GIỚI THIỆU ASEAN -->
+    <section id="intro" class="section-padding bg-light">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="sub-heading">Tổng quan</span>
+          <h2 class="section-title">ASEAN là gì?</h2>
+          <div class="divider"></div>
+          <p class="section-desc">Tìm hiểu về tên gọi đầy đủ, cơ cấu và các thông số cốt lõi tạo dựng tổ chức.</p>
+        </div>
+
+        <div class="intro-grid">
+          <div class="intro-main-card reveal">
+            <h3 class="intro-heading" id="intro-title">Hiệp hội các quốc gia Đông Nam Á</h3>
+            <p class="intro-subname">Tên tiếng Anh đầy đủ: <strong id="intro-eng-name">Association of Southeast Asian Nations</strong></p>
+            <p class="intro-text">
+              ASEAN là một liên minh chính trị, kinh tế, văn hóa và xã hội đa quốc gia của các nước thuộc khu vực Đông Nam Á. 
+              Tổ chức được thành lập nhằm thúc đẩy tinh thần hợp tác bền vững, cùng phát triển kinh tế, duy trì hòa bình, ổn định khu vực 
+              và hội nhập sâu rộng trên trường quốc tế.
+            </p>
+            <div class="logo-box">
+              <div class="logo-box-inner">
+                <img src="images/co_asian.png" alt="Cờ ASEAN" class="asean-flag-large">
+                <div class="logo-box-text">
+                  <h4>Biểu tượng & Biểu khẩu</h4>
+                  <p class="motto-text" id="intro-motto">"Một Tầm Nhìn, Một Bản Sắc, Một Cộng Đồng"</p>
+                  <p class="logo-details" id="intro-logo-desc">Bó lúa 10 thân đại diện cho 10 nước thành viên quây quần đoàn kết chặt chẽ.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="intro-metrics" id="intro-cards-container">
+            <!-- Sẽ được fill tự động bằng JS từ data -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. BỐI CẢNH RA ĐỜI -->
+    <section id="background" class="section-padding">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="sub-heading">Lịch Sử</span>
+          <h2 class="section-title">Bối Cảnh Ra Đời</h2>
+          <div class="divider"></div>
+        </div>
+
+        <div class="context-container">
+          <div class="context-text reveal-left" id="context-paragraphs">
+            <!-- Nạp tự động từ JS -->
+          </div>
+          <div class="context-image-wrapper reveal-right">
+            <div class="image-card">
+              <img id="context-img" src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Bangkok_Declaration_signing.jpg" alt="Ký Tuyên bố Bangkok 1967" class="context-img">
+              <div class="image-caption" id="context-caption">Các nhà lãnh đạo ký kết Tuyên bố Bangkok vào ngày 8/8/1967.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. SỰ THÀNH LẬP & 5 NƯỚC SÁNG LẬP -->
+    <section id="founders" class="section-padding bg-dark-deep text-white">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="sub-heading">Kiến Tạo</span>
+          <h2 class="section-title text-white">5 Quốc Gia Sáng Lập</h2>
+          <div class="divider bg-accent"></div>
+          <p class="section-desc text-gray" id="founders-subtitle">Những kiến trúc sư đầu tiên đặt nền móng xây dựng ngôi nhà chung ASEAN</p>
+        </div>
+
+        <p class="founders-main-desc text-center reveal" id="founders-main-desc">
+          Vào ngày 8 tháng 8 năm 1967 tại Bangkok, Thái Lan, năm vị Bộ trưởng Ngoại giao (được lịch sử tôn vinh là những nhà sáng lập) 
+          đại diện cho 5 quốc gia đã ký kết Tuyên bố Bangkok lịch sử, khai sinh ra ASEAN.
+        </p>
+
+        <div class="founders-grid" id="founders-container">
+          <!-- Sẽ được fill bằng JS từ data -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. DÒNG THỜI GIAN LỊCH SỬ -->
+    <section id="timeline" class="section-padding">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="sub-heading">Hành Trình</span>
+          <h2 class="section-title">Dòng Thời Gian Lịch Sử</h2>
+          <div class="divider"></div>
+          <p class="section-desc">Những mốc lịch sử quan trọng trong quá trình mở rộng và phát triển của ASEAN qua các thời kỳ.</p>
+        </div>
+
+        <div class="timeline-wrapper" id="timeline-container">
+          <!-- Sẽ nạp timeline từ JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. CÁC NƯỚC THÀNH VIÊN -->
+    <section id="members" class="section-padding bg-light">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="sub-heading">Thành Viên</span>
+          <h2 class="section-title">10 Quốc Gia Thành Viên</h2>
+          <div class="divider"></div>
+          <p class="section-desc">Khám phá chi tiết về 10 quốc gia thành viên chính thức tạo nên bức tranh văn hóa, kinh tế phong phú của Đông Nam Á.</p>
+        </div>
+
+        <div class="members-grid" id="members-container">
+          <!-- Sẽ nạp thẻ thành viên từ JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. MỤC TIÊU VÀ NGUYÊN TẮC HOẠT ĐỘNG -->
+    <section id="goals" class="section-padding">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="sub-heading">Hiến Chương</span>
+          <h2 class="section-title">Mục Tiêu & Nguyên Tắc Hoạt Động</h2>
+          <div class="divider"></div>
+          <p class="section-desc">Các mục tiêu chiến lược và nguyên tắc ứng xử cốt lõi (ASEAN Way) tạo nên sự ổn định bền vững của Hiệp hội.</p>
+        </div>
+
+        <div class="principles-container">
+          <!-- Mục tiêu -->
+          <div class="principles-box reveal-left">
+            <div class="box-header">
+              <i data-lucide="target" class="icon-primary"></i>
+              <h3>Mục Tiêu Chiến Lược</h3>
+            </div>
+            <div class="principles-list" id="goals-container">
+              <!-- JS nạp -->
+            </div>
+          </div>
+
+          <!-- Hình minh họa tinh tế ở trung tâm -->
+          <div class="principles-image-wrapper reveal">
+            <img src="images/asean_unity.png" alt="Sự đoàn kết ASEAN" class="principles-center-img">
+          </div>
+
+          <!-- Nguyên tắc -->
+          <div class="principles-box reveal-right">
+            <div class="box-header">
+              <i data-lucide="shield-check" class="icon-accent"></i>
+              <h3>Nguyên Tắc Cốt Lõi</h3>
+            </div>
+            <div class="principles-list" id="rules-container">
+              <!-- JS nạp -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. THÀNH TỰU NỔI BẬT -->
+    <section id="achievements" class="section-padding bg-light">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="sub-heading">Thành Quả</span>
+          <h2 class="section-title">Các Thành Tựu Nổi Bật</h2>
+          <div class="divider"></div>
+          <p class="section-desc">Những đóng góp quan trọng khẳng định tầm vóc kinh tế, chính trị và nhân văn của khối trên trường quốc tế.</p>
+        </div>
+
+        <!-- Banner thành tựu cao cấp -->
+        <div class="achievements-intro-banner reveal">
+          <div class="achievements-banner-text">
+            <h3>Hợp tác toàn diện - Gặt hái quả ngọt</h3>
+            <p>Trải qua hơn nửa thế kỷ, ASEAN đã chứng minh sức mạnh của sự đoàn kết và đối thoại. Từ một nhóm quốc gia bị chia rẽ, hiệp hội đã vươn lên thành một trong những khu vực phát triển kinh tế năng động và duy trì môi trường hòa bình ổn định tốt nhất thế giới.</p>
+            <div class="achievements-banner-metrics">
+              <div class="banner-metric">
+                <span class="num">Nền KT thứ 5</span>
+                <span class="lbl">GDP toàn cầu</span>
+              </div>
+              <div class="banner-metric">
+                <span class="num">30% GDP</span>
+                <span class="lbl">Bao phủ bởi RCEP</span>
+              </div>
+            </div>
+          </div>
+          <div class="achievements-banner-image">
+            <img src="images/asean_prosperity.png" alt="Sự hưng thịnh của ASEAN" class="banner-img">
+          </div>
+        </div>
+
+        <div class="achievements-grid" id="achievements-container">
+          <!-- Nạp tự động từ JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. ASEAN VÀ VIỆT NAM -->
+    <section id="vietnam" class="section-padding bg-vietnam-gradient text-white">
+      <div class="container">
+        <div class="vietnam-wrapper">
+          <div class="vietnam-header text-center reveal">
+            <div class="vietnam-badge">Mốc Son Lịch Sử 1995</div>
+            <h2 class="vietnam-title text-white">Việt Nam và ASEAN</h2>
+            <div class="divider bg-yellow"></div>
+            <p class="vietnam-subtitle" id="vietnam-intro">Việc Việt Nam gia nhập ASEAN năm 1995 là bước ngoặt quyết định đưa nước ta hội nhập sâu rộng, hòa hợp quốc tế.</p>
+          </div>
+
+          <div class="vietnam-content">
+            <div class="vietnam-column reveal-left">
+              <div class="vietnam-block">
+                <h3 class="vietnam-section-title" id="vietnam-role-title"><i data-lucide="star" class="text-yellow"></i> Vai trò tích cực của Việt Nam</h3>
+                <div class="vietnam-roles-list" id="vietnam-roles-container">
+                  <!-- Tải động từ JS -->
+                </div>
+              </div>
+            </div>
+
+            <div class="vietnam-column reveal-right">
+              <div class="vietnam-block">
+                <h3 class="vietnam-section-title" id="vietnam-meaning-title"><i data-lucide="award" class="text-yellow"></i> Ý nghĩa đối với nước ta</h3>
+                <div class="vietnam-meaning-list" id="vietnam-meaning-container">
+                  <!-- Tải động từ JS -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10. THƯ VIỆN HÌNH ẢNH -->
+    <section id="gallery" class="section-padding">
+      <div class="container">
+        <div class="section-header text-center">
+          <span class="sub-heading">Kho Ảnh</span>
+          <h2 class="section-title">Thư Viện Hình Ảnh</h2>
+          <div class="divider"></div>
+          <p class="section-desc">Ghi lại các khoảnh khắc lịch sử, các hội nghị cấp cao và biểu tượng đặc trưng của khối ASEAN.</p>
+        </div>
+
+        <div class="gallery-filters" id="gallery-filters">
+          <button class="filter-btn active" data-filter="all">Tất cả</button>
+          <button class="filter-btn" data-filter="history">Lịch sử</button>
+          <button class="filter-btn" data-filter="summit">Hội nghị</button>
+          <button class="filter-btn" data-filter="identity">Bản sắc</button>
+          <button class="filter-btn" data-filter="culture">Văn hóa</button>
+        </div>
+
+        <div class="gallery-grid" id="gallery-container">
+          <!-- Nạp ảnh từ JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 11. QUIZ TRẮC NGHIỆM -->
+    <section id="quiz" class="section-padding bg-quiz-gradient text-white">
+      <div class="container">
+        <div class="quiz-card-wrapper reveal">
+          <div class="quiz-card-header text-center">
+            <span class="quiz-badge">Trải nghiệm tương tác</span>
+            <h2 class="text-white">Thử Thách Trắc Nghiệm ASEAN</h2>
+            <p class="quiz-intro-text">Kiểm tra kiến thức lịch sử của bạn về chặng đường 60 năm kiến tạo và phát triển của ASEAN!</p>
+            
+            <!-- Hiển thị nguồn dữ liệu đang sử dụng -->
+            <div id="quiz-source-indicator" class="quiz-source-badge">
+              <i data-lucide="database"></i> <span id="quiz-source-text">Đang tải câu hỏi...</span>
+            </div>
+          </div>
+
+          <div class="quiz-card-body" id="quiz-box">
+            <!-- Màn hình bắt đầu -->
+            <div id="quiz-start-screen" class="quiz-screen text-center">
+              <div class="quiz-icon-large">
+                <i data-lucide="help-circle"></i>
+              </div>
+              <h3>Bạn đã sẵn sàng chưa?</h3>
+              <p>Bộ câu hỏi gồm 10 câu trắc nghiệm bao quát các chủ đề: sự thành lập, các mốc lịch sử, quốc gia thành viên và vai trò của Việt Nam.</p>
+              <button id="btn-start-quiz" class="btn btn-accent btn-large">Bắt đầu ngay <i data-lucide="play"></i></button>
+            </div>
+
+            <!-- Màn hình chơi quiz -->
+            <div id="quiz-play-screen" class="quiz-screen hidden">
+              <div class="quiz-progress-wrapper">
+                <div class="quiz-progress-text">Câu hỏi <span id="quiz-current-num">1</span> / <span id="quiz-total-num">10</span></div>
+                <div class="quiz-progress-container">
+                  <div id="quiz-progress-bar" class="quiz-progress-bar-fill"></div>
+                </div>
+              </div>
+
+              <div class="quiz-question-container">
+                <h4 id="quiz-question-text" class="quiz-question">Câu hỏi sẽ hiển thị ở đây?</h4>
+                <div class="quiz-options" id="quiz-options-container">
+                  <!-- Sẽ render nút đáp án bằng JS -->
+                </div>
+              </div>
+
+              <div class="quiz-footer text-right">
+                <button id="btn-next-question" class="btn btn-primary" disabled>
+                  <span>Câu tiếp theo</span>
+                  <i data-lucide="arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Màn hình kết quả -->
+            <div id="quiz-result-screen" class="quiz-screen text-center hidden">
+              <div id="quiz-result-icon" class="quiz-icon-large">
+                <i data-lucide="trophy"></i>
+              </div>
+              <h3 id="quiz-result-title">Hoàn thành thử thách!</h3>
+              
+              <div class="result-stats">
+                <div class="stat-box">
+                  <span class="stat-val text-green" id="stat-correct">0</span>
+                  <span class="stat-lbl">Đúng</span>
+                </div>
+                <div class="stat-box">
+                  <span class="stat-val text-red" id="stat-wrong">0</span>
+                  <span class="stat-lbl">Sai</span>
+                </div>
+                <div class="stat-box">
+                  <span class="stat-val text-accent" id="stat-percent">0%</span>
+                  <span class="stat-lbl">Tỷ lệ</span>
+                </div>
+              </div>
+
+              <div class="result-feedback-box">
+                <p class="result-score">Bạn đạt được <strong id="result-score-txt">0/10</strong> điểm.</p>
+                <p class="result-remarks" id="result-remarks-txt">Nhận xét kết quả sẽ hiển thị ở đây.</p>
+              </div>
+
+              <button id="btn-restart-quiz" class="btn btn-accent btn-large">
+                <i data-lucide="rotate-ccw"></i>
+                <span>Làm lại Quiz</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-top">
+      <div class="container footer-grid">
+        <div class="footer-col footer-about">
+          <a href="#home" class="footer-logo">
+            <img src="images/asean_logo.png" alt="Logo ASEAN" class="logo-img">
+            <span>ASEAN</span>
+          </a>
+          <p>Trang web học thuật cung cấp tư liệu lịch sử đầy đủ và chính xác về Hiệp hội các quốc gia Đông Nam Á (ASEAN). Hãy cùng chung tay vì một tương lai phồn vinh!</p>
+          <div class="social-links">
+            <a href="#" aria-label="Facebook"><i data-lucide="facebook"></i></a>
+            <a href="#" aria-label="Twitter"><i data-lucide="twitter"></i></a>
+            <a href="#" aria-label="Globe"><i data-lucide="globe"></i></a>
+          </div>
+        </div>
+        
+        <div class="footer-col">
+          <h4>Khám Phá</h4>
+          <ul>
+            <li><a href="#intro">Giới thiệu ASEAN</a></li>
+            <li><a href="#background">Bối cảnh ra đời</a></li>
+            <li><a href="#founders">Quốc gia sáng lập</a></li>
+            <li><a href="#timeline">Dòng thời gian</a></li>
+            <li><a href="#members">Thành viên</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Học Tập</h4>
+          <ul>
+            <li><a href="#goals">Mục tiêu & Nguyên tắc</a></li>
+            <li><a href="#achievements">Thành tựu nổi bật</a></li>
+            <li><a href="#vietnam">Việt Nam & ASEAN</a></li>
+            <li><a href="#gallery">Thư viện hình ảnh</a></li>
+            <li><a href="#quiz">Trắc nghiệm tương tác</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Phương châm ASEAN</h4>
+          <div class="motto-box-footer">
+            <p class="motto-en">"One Vision, One Identity, One Community"</p>
+            <p class="motto-vi">"Một Tầm Nhìn, Một Bản Sắc, Một Cộng Đồng"</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <div class="container footer-bottom-flex">
+        <p>&copy; 2026 Bản quyền thuộc về Dự án Giáo dục Lịch sử ASEAN. Phát triển bởi Antigravity AI.</p>
+        <p>Tài liệu phục vụ học thuật và học tập phi thương mại.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Nút cuộn nhanh lên đầu trang (Back to top) -->
+  <button id="back-to-top" class="back-to-top-btn" aria-label="Cuộn lên đầu trang">
+    <i data-lucide="arrow-up"></i>
+  </button>
+
+  <!-- Modal Lightbox để xem ảnh lớn -->
+  <div id="lightbox-modal" class="lightbox-modal" aria-hidden="true" role="dialog">
+    <button class="lightbox-close" id="lightbox-close" aria-label="Đóng xem ảnh lớn">
+      <i data-lucide="x"></i>
+    </button>
+    <div class="lightbox-content-wrapper">
+      <img id="lightbox-img" src="" alt="Ảnh phóng to" class="lightbox-img">
+      <div class="lightbox-caption" id="lightbox-caption">Mô tả ảnh ở đây</div>
+    </div>
+  </div>
+
+  <!-- DỮ LIỆU TĨNH VÀ SCRIPT LOGIC -->
+  <script src="data/aseanHistory.js" charset="utf-8"></script>
+  <script src="data/quizQuestions.js" charset="utf-8"></script>
+  <script src="script.js" charset="utf-8"></script>
+
+  <script>
+    // Khởi tạo các icon của Lucide ngay sau khi DOM load
+    document.addEventListener("DOMContentLoaded", function() {
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>
