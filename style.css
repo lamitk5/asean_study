@@ -9,7 +9,13 @@
   --bg-secondary: #f8fafc;
   --bg-card: #ffffff;
   --text-primary: #101828;
-  --text-secondary: #667085;
+  --text-secondary: #475467;
+  --text-muted: #667085;
+  --heading-color: #0f172a;
+  --card-text: #1f2937;
+  --card-muted: #64748b;
+  --link-color: #003b73;
+  --accent-text: #b77900;
   --border-color: rgba(0, 51, 102, 0.12);
   --shadow-color: rgba(0, 31, 63, 0.08);
   --asean-blue: #002D62;      /* Xanh ASEAN nguyên bản */
@@ -28,7 +34,6 @@
   --bg-light: var(--bg-secondary);
   --bg-card-compat: var(--bg-card);
   --text-color: var(--text-primary);
-  --text-muted: var(--text-secondary);
   --border-color-compat: var(--border-color);
   --card-shadow: 0 10px 30px var(--shadow-color), 0 1px 3px rgba(0, 0, 0, 0.02);
   --hover-shadow: 0 20px 45px rgba(0, 45, 98, 0.12);
@@ -57,7 +62,13 @@ body.dark-mode,
   --bg-secondary: #0f172a;
   --bg-card: #162033;
   --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
+  --text-secondary: #e2e8f0;
+  --text-muted: #94a3b8;
+  --heading-color: #ffffff;
+  --card-text: #f8fafc;
+  --card-muted: #cbd5e1;
+  --link-color: #60a5fa;
+  --accent-text: #facc15;
   --border-color: rgba(255, 255, 255, 0.12);
   --shadow-color: rgba(0, 0, 0, 0.32);
   --asean-blue: #60a5fa;
@@ -68,7 +79,6 @@ body.dark-mode,
   --bg-light: var(--bg-secondary);
   --bg-card-compat: var(--bg-card);
   --text-color: var(--text-primary);
-  --text-muted: var(--text-secondary);
   --border-color-compat: var(--border-color);
   --card-shadow: 0 10px 30px var(--shadow-color);
   --hover-shadow: 0 20px 45px rgba(0, 0, 0, 0.5);
@@ -108,10 +118,61 @@ body {
   font-family: var(--font-main);
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  line-height: 1.6;
+  line-height: 1.7;
   overflow-x: hidden;
   transition: background-color 0.3s ease, color 0.3s ease;
   -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6,
+.section-title,
+.card-title,
+.footer-col h4 {
+  color: var(--heading-color);
+}
+
+p,
+.section-description,
+.section-desc,
+.intro-text,
+.context-text p,
+.member-description,
+.timeline-desc,
+.goal-card p,
+.achievement-card p,
+.quiz-intro-text,
+.footer-about p {
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+small,
+.meta,
+.label,
+.muted-text,
+.chip-label,
+.flags-bar-label,
+.footer-bottom {
+  color: var(--text-muted);
+}
+
+.card,
+.info-card,
+.member-card,
+.goal-card,
+.achievement-card,
+.quiz-card,
+.timeline-content {
+  color: var(--card-text);
+}
+
+.card p,
+.info-card p,
+.member-card p,
+.goal-card p,
+.achievement-card p,
+.quiz-card p {
+  color: var(--card-muted);
 }
 
 .card,
@@ -120,15 +181,8 @@ body {
 .achievement-card,
 .quiz-card {
   background: var(--bg-card) !important;
-  color: var(--text-primary) !important;
   border: 1px solid var(--border-color) !important;
   box-shadow: 0 18px 45px var(--shadow-color) !important;
-}
-
-p,
-.section-description,
-.card p {
-  color: var(--text-secondary) !important;
 }
 
 a {
@@ -212,6 +266,52 @@ p:last-child {
   color: #F1C40F !important;
 }
 
+/* Sections với nền tối - đồng bộ chữ sáng */
+.dark-section,
+.hero-section,
+.achievements-highlight,
+.bg-vietnam-gradient,
+.bg-quiz-gradient {
+  color: #ffffff;
+}
+
+.dark-section h1,
+.dark-section h2,
+.dark-section h3,
+.dark-section h4,
+.dark-section h5,
+.dark-section h6,
+.hero-section h1,
+.hero-section h2,
+.hero-section h3,
+.achievements-highlight h3,
+.bg-vietnam-gradient h2,
+.bg-vietnam-gradient h3,
+.achievements-section .section-badge,
+.bg-quiz-gradient h2,
+.bg-quiz-gradient h3 {
+  color: #ffffff;
+}
+
+.dark-section p,
+.dark-section .section-desc,
+.hero-section p,
+.achievements-highlight p,
+.bg-vietnam-gradient p,
+.bg-vietnam-gradient .vietnam-subtitle,
+.achievements-section .section-header p {
+  color: rgba(255, 255, 255, 0.84);
+}
+
+.dark-section small,
+.dark-section .muted-text,
+.dark-section .meta,
+.dark-section .label,
+.hero-section .flags-bar-label,
+.hero-section .chip-label {
+  color: rgba(255, 255, 255, 0.72);
+}
+
 .text-green {
   color: var(--success-color) !important;
 }
@@ -259,7 +359,7 @@ body.dark-mode .sub-heading {
 }
 
 .section-title {
-  color: var(--text-color);
+  color: var(--heading-color);
   font-size: 2.25rem;
   font-weight: 800;
   margin-bottom: 15px;
@@ -283,7 +383,11 @@ body.dark-mode .sub-heading {
 
 .section-desc {
   font-size: 1.1rem;
-  color: var(--text-muted);
+  color: var(--text-secondary);
+  line-height: 1.75;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* Nút bấm (Buttons) */
@@ -996,8 +1100,10 @@ body.dark-mode .theme-icon-light {
 
 .intro-heading {
   font-size: 1.8rem;
-  color: var(--primary-color);
+  color: var(--heading-color);
   margin-bottom: 0;
+  line-height: 1.3;
+  font-weight: 700;
 }
 
 body.dark-mode .intro-heading {
@@ -1011,7 +1117,6 @@ body.dark-mode .intro-heading {
 }
 
 .intro-text {
-  color: var(--text-color);
   font-size: 1.05rem;
   margin-bottom: 0;
   text-align: justify;
@@ -1050,7 +1155,6 @@ body.dark-mode .intro-heading {
   font-size: 22px;
   line-height: 1.25;
   font-weight: 800;
-  color: var(--text-primary);
   margin: 0 0 10px;
 }
 
@@ -1287,7 +1391,6 @@ body.dark-mode #background,
 
 .context-text p {
   margin-bottom: 20px;
-  color: var(--text-color);
 }
 
 .context-text p:last-child {
@@ -1576,6 +1679,12 @@ body.dark-mode #background,
   transition: var(--transition-smooth);
 }
 
+/* Card bên trái: watermark sang góc trên bên trái để không đè badge năm */
+.timeline-item.left .timeline-year-huge {
+  right: auto;
+  left: 25px;
+}
+
 body.dark-mode .timeline-year-huge {
   color: rgba(255, 255, 255, 0.04);
 }
@@ -1597,6 +1706,8 @@ body.dark-mode .timeline-year-huge {
   border-radius: 20px;
   margin-bottom: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 2;
   transition: var(--transition-smooth);
 }
 
@@ -2192,7 +2303,7 @@ body.dark-mode .card-icon-accent {
 .card-header h3 {
   font-size: 1.4rem;
   font-weight: 800;
-  color: var(--text-color);
+  color: var(--heading-color);
 }
 
 .principle-list {
@@ -2238,17 +2349,16 @@ body.dark-mode .item-number {
 }
 
 .principle-item h4 {
-  margin: 0 0 6px;
   font-size: 1.05rem;
   font-weight: 700;
-  color: var(--text-color);
-  transition: var(--transition-fast);
+  color: var(--heading-color);
+  margin-bottom: 6px;
 }
 
 .principle-item p {
   margin: 0;
-  color: var(--text-muted);
-  line-height: 1.65;
+  color: var(--text-secondary);
+  line-height: 1.7;
   text-align: justify;
 }
 
@@ -2369,7 +2479,7 @@ body.dark-mode .achievements-section,
 }
 
 .achievements-highlight p {
-  color: rgba(255, 255, 255, 0.78);
+  color: rgba(255, 255, 255, 0.84);
   line-height: 1.75;
 }
 
@@ -2400,7 +2510,7 @@ body.dark-mode .achievements-section,
 
 .achievement-stats span {
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .achievements-grid {
@@ -2572,8 +2682,8 @@ body.dark-mode .achievement-card:hover .achievement-icon,
 
 .vn-role-item p {
   font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.85);
-  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.88);
+  line-height: 1.65;
   text-align: justify;
 }
 
@@ -2609,7 +2719,7 @@ body.dark-mode .achievement-card:hover .achievement-icon,
 .filter-btn {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
-  color: var(--text-color);
+  color: var(--text-primary);
   padding: 8px 20px;
   font-size: 0.9rem;
   font-weight: 600;
@@ -2684,9 +2794,9 @@ body.dark-mode .achievement-card:hover .achievement-icon,
 }
 
 .gallery-overlay p {
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.82);
   font-size: 0.8rem;
-  line-height: 1.3;
+  line-height: 1.4;
 }
 
 /* ==========================================================================
@@ -3167,7 +3277,7 @@ body.dark-mode .option-text,
 
 .stat-lbl {
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.75);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -3201,10 +3311,6 @@ body.dark-mode .option-text,
   font-style: italic;
   line-height: 1.6;
   color: var(--text-secondary);
-}
-
-.result-score strong {
-  color: #ffc107;
 }
 
 .result-remarks {
@@ -3283,11 +3389,9 @@ footer {
 }
 
 .footer-col h4 {
-  color: var(--text-primary);
   font-size: 1.1rem;
   margin-bottom: 24px;
   position: relative;
-  padding-bottom: 8px;
 }
 
 .footer-col h4::after {
@@ -3539,7 +3643,8 @@ footer {
 
   .timeline-year-huge {
     font-size: 2.2rem !important;
-    right: 15px !important;
+    right: auto !important;
+    left: 15px !important;
     top: 10px !important;
   }
 
@@ -4223,7 +4328,8 @@ footer {
   
   .timeline-year-huge {
     font-size: 1.8rem !important;
-    right: 10px !important;
+    right: auto !important;
+    left: 10px !important;
     top: 5px !important;
   }
   

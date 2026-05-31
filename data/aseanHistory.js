@@ -489,11 +489,11 @@ const aseanHistoryData = {
   },
 
   gallery: [
-    {
+    { 
       title: "Cờ các nước ASEAN",
       category: "identity",
-      url: "images/co-cac-nuoc-dong-nam-a-2.jpg",
-      desc: "Lá cờ ASEAN tung bay kiêu hãnh bên cạnh quốc kỳ các nước thành viên, biểu trưng cho sự hòa bình, ổn định và đoàn kết."
+      url: "images/ca102caa57e24d7394fc80793677312d.jpg",
+      desc: "Lá cờ của tất cả các nước thành viên tung bay cùng nhau, biểu trưng cho sự hòa bình, ổn định và đoàn kết."
     },
     {
       title: "Hội nghị cấp cao ASEAN lần thứ 43",
