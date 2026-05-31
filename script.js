@@ -27,6 +27,9 @@ document.addEventListener("DOMContentLoaded", function() {
   
   // Lập trình trò chơi trắc nghiệm (Quiz)
   initQuizGame();
+  
+  // Hiệu ứng 3D tilt cho hero visual
+  initHeroTilt();
 });
 
 /* ==========================================================================
@@ -57,6 +60,7 @@ function initLoader() {
 function initDarkMode() {
   const themeToggleBtn = document.getElementById("theme-toggle");
   const body = document.body;
+  const html = document.documentElement;
   
   if (!themeToggleBtn) return;
   
@@ -64,25 +68,29 @@ function initDarkMode() {
   const savedTheme = localStorage.getItem("theme");
   const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
   
+  function applyTheme(theme) {
+    if (theme === "dark") {
+      body.classList.remove("light-mode", "light");
+      body.classList.add("dark-mode", "dark");
+      html.setAttribute("data-theme", "dark");
+    } else {
+      body.classList.remove("dark-mode", "dark");
+      body.classList.add("light-mode", "light");
+      html.setAttribute("data-theme", "light");
+    }
+  }
+  
   if (savedTheme === "dark" || (!savedTheme && systemPrefersDark)) {
-    body.classList.remove("light-mode");
-    body.classList.add("dark-mode");
+    applyTheme("dark");
   } else {
-    body.classList.remove("dark-mode");
-    body.classList.add("light-mode");
+    applyTheme("light");
   }
   
   // 2. Lắng nghe sự kiện click đổi theme
   themeToggleBtn.addEventListener("click", function() {
-    if (body.classList.contains("dark-mode")) {
-      body.classList.remove("dark-mode");
-      body.classList.add("light-mode");
-      localStorage.setItem("theme", "light");
-    } else {
-      body.classList.remove("light-mode");
-      body.classList.add("dark-mode");
-      localStorage.setItem("theme", "dark");
-    }
+    const currentTheme = body.classList.contains("dark") ? "light" : "dark";
+    applyTheme(currentTheme);
+    localStorage.setItem("theme", currentTheme);
   });
 }
 
@@ -208,7 +216,16 @@ function populateAcademicData(data) {
   document.getElementById("intro-title").innerText = data.overview.title;
   document.getElementById("intro-eng-name").innerText = data.overview.englishName;
   document.getElementById("intro-motto").innerText = `"${data.overview.motto}"`;
-  document.getElementById("intro-logo-desc").innerText = data.overview.logoDescription;
+  const logoDescription = String(data.overview.logoDescription)
+    .replace(/[&<>"']/g, (char) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    }[char]))
+    .replace(/(Xanh|Đỏ|Trắng|Vàng)/g, '<strong class="symbol-color-word">$1</strong>');
+  document.getElementById("intro-logo-desc").innerHTML = logoDescription;
   
   const introCardsContainer = document.getElementById("intro-cards-container");
   if (introCardsContainer) {
@@ -314,43 +331,120 @@ function populateAcademicData(data) {
     }
   }
 
-  // --- E. CÁC NƯỚC THÀNH VIÊN ---
+  // --- E. CÁC NƯỚC THÀNH VIÊN & CHI TIẾT MODAL ---
   const membersContainer = document.getElementById("members-container");
   if (membersContainer) {
     membersContainer.innerHTML = data.members.countries.map((c, idx) => `
-      <div class="member-card reveal" style="transition-delay: ${(idx % 3) * 0.1}s">
-        <div class="member-flag-wrapper">
-          <img src="${c.landmark}" alt="Landmark ${c.vietnameseName}" class="member-flag">
+      <div class="member-card reveal" style="transition-delay: ${(idx % 4) * 0.08}s">
+        <div class="member-image">
+          <img src="${c.landmark}" alt="Landmark ${c.vietnameseName}">
           <span class="member-badge">${c.joinYear === 1967 ? "Sáng lập" : "Thành viên"}</span>
           <div class="member-floating-flag-wrapper">
             <img src="${c.flag}" alt="Quốc kỳ ${c.vietnameseName}" class="member-floating-flag">
           </div>
         </div>
-        <div class="member-info">
+        <div class="member-content">
           <h3>${c.vietnameseName}</h3>
           <div class="member-eng-name">${c.name}</div>
-          <div class="member-stats">
-            <div class="stat-item">
-              <span class="stat-label">Ngày gia nhập:</span>
-              <span class="stat-value">${c.joinDate}</span>
+          <div class="member-info">
+            <div class="member-info-row">
+              <span>Ngày gia nhập</span>
+              <span>${c.joinDate}</span>
             </div>
-            <div class="stat-item">
-              <span class="stat-label">Thủ đô:</span>
-              <span class="stat-value">${c.capital}</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-label">Quốc hoa:</span>
-              <span class="stat-value">${c.nationalFlower}</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-label">Tiền tệ:</span>
-              <span class="stat-value">${c.currency}</span>
+            <div class="member-info-row">
+              <span>Thủ đô</span>
+              <span>${c.capital}</span>
             </div>
           </div>
-          <p class="member-desc">${c.description}</p>
+          <p class="member-description">${c.description}</p>
+          <button class="btn-view-detail" data-country-id="${c.id}">
+            <span>Xem chi tiết</span>
+            <i data-lucide="arrow-right"></i>
+          </button>
         </div>
       </div>
     `).join('');
+
+    // Setup Modal xem chi tiết
+    const memberModal = document.getElementById("member-modal");
+    const memberModalBody = document.getElementById("member-modal-body");
+    const memberModalClose = document.getElementById("member-modal-close");
+
+    if (memberModal && memberModalBody && memberModalClose) {
+      // Đăng ký click cho các nút "Xem chi tiết"
+      const detailButtons = membersContainer.querySelectorAll(".btn-view-detail");
+      detailButtons.forEach(btn => {
+        btn.addEventListener("click", function() {
+          const countryId = this.getAttribute("data-country-id");
+          const country = data.members.countries.find(c => c.id === countryId);
+          if (country) {
+            memberModalBody.innerHTML = `
+              <div class="modal-banner-wrapper">
+                <img src="${country.landmark}" alt="Landmark ${country.vietnameseName}" class="modal-banner">
+                <span class="modal-badge">${country.joinYear === 1967 ? "Sáng lập" : "Thành viên"}</span>
+                <div class="modal-floating-flag-wrapper">
+                  <img src="${country.flag}" alt="Quốc kỳ ${country.vietnameseName}" class="modal-floating-flag">
+                </div>
+              </div>
+              <div class="modal-details">
+                <h2>${country.vietnameseName}</h2>
+                <div class="modal-eng-name">${country.name}</div>
+                <div class="modal-stats-grid">
+                  <div class="modal-stat-card">
+                    <span>Ngày gia nhập</span>
+                    <span>${country.joinDate}</span>
+                  </div>
+                  <div class="modal-stat-card">
+                    <span>Thủ đô</span>
+                    <span>${country.capital}</span>
+                  </div>
+                  <div class="modal-stat-card">
+                    <span>Quốc hoa</span>
+                    <span>${country.nationalFlower}</span>
+                  </div>
+                  <div class="modal-stat-card">
+                    <span>Tiền tệ</span>
+                    <span>${country.currency}</span>
+                  </div>
+                </div>
+                <p class="modal-description">${country.description}</p>
+              </div>
+            `;
+            memberModal.classList.add("open");
+            memberModal.setAttribute("aria-hidden", "false");
+            document.body.style.overflow = "hidden"; // Chống cuộn trang khi mở modal
+            
+            // Khởi tạo các icon của Lucide bên trong modal
+            if (window.lucide) {
+              window.lucide.createIcons();
+            }
+          }
+        });
+      });
+
+      // Đóng modal khi click vào nút X
+      memberModalClose.addEventListener("click", closeMemberModal);
+
+      // Đóng modal khi click ra ngoài vùng modal content
+      memberModal.addEventListener("click", function(e) {
+        if (e.target === memberModal) {
+          closeMemberModal();
+        }
+      });
+
+      // Đóng modal khi nhấn phím ESC
+      window.addEventListener("keydown", function(e) {
+        if (e.key === "Escape" && memberModal.classList.contains("open")) {
+          closeMemberModal();
+        }
+      });
+
+      function closeMemberModal() {
+        memberModal.classList.remove("open");
+        memberModal.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = ""; // Khôi phục cuộn trang
+      }
+    }
   }
 
   // --- F. MỤC TIÊU & NGUYÊN TẮC ---
@@ -358,8 +452,8 @@ function populateAcademicData(data) {
   if (goalsContainer) {
     goalsContainer.innerHTML = data.principles.goals.map((g, idx) => `
       <div class="principle-item">
-        <div class="principle-num">${idx + 1}</div>
-        <div class="principle-content">
+        <span class="item-number">${idx + 1}</span>
+        <div>
           <h4>${g.title}</h4>
           <p>${g.desc}</p>
         </div>
@@ -371,8 +465,8 @@ function populateAcademicData(data) {
   if (rulesContainer) {
     rulesContainer.innerHTML = data.principles.rules.map((r, idx) => `
       <div class="principle-item">
-        <div class="principle-num">${idx + 1}</div>
-        <div class="principle-content">
+        <span class="item-number">${idx + 1}</span>
+        <div>
           <h4>${r.title}</h4>
           <p>${r.desc}</p>
         </div>
@@ -392,13 +486,13 @@ function populateAcademicData(data) {
       identity: "sparkles"
     };
     achievementsContainer.innerHTML = data.achievements.list.map((a, idx) => `
-      <div class="achievement-card reveal" style="transition-delay: ${(idx % 3) * 0.1}s">
-        <div class="achievement-icon-box">
+      <article class="achievement-card reveal" style="transition-delay: ${(idx % 2) * 0.08}s">
+        <div class="achievement-icon">
           <i data-lucide="${iconsMap[a.id] || "check"}"></i>
         </div>
         <h3>${a.title}</h3>
         <p>${a.desc}</p>
-      </div>
+      </article>
     `).join('');
   }
 
@@ -636,8 +730,9 @@ function initQuizGame() {
       console.log(`Đã tải thành công ${quizQuestions.length} câu hỏi từ cauhoi.txt.`);
       
       // Hiển thị trạng thái màu xanh lá
-      sourceIndicator.className = "quiz-source-badge success";
-      sourceText.innerText = "Tải dữ liệu trực tiếp (Live: cauhoi.txt)";
+      if (sourceIndicator && sourceText) {
+        sourceIndicator.className = "quiz-source-badge success";
+      }
       
     } catch (error) {
       console.warn("Lỗi tải cauhoi.txt (CORS khi mở file:// trực tiếp hoặc lỗi file). Sử dụng dữ liệu dự phòng data/quizQuestions.js. Chi tiết lỗi:", error);
@@ -646,11 +741,15 @@ function initQuizGame() {
       if (typeof fallbackQuizQuestions !== 'undefined' && fallbackQuizQuestions.length > 0) {
         quizQuestions = fallbackQuizQuestions;
         // Hiển thị trạng thái màu vàng cam cảnh báo
-        sourceIndicator.className = "quiz-source-badge fallback";
-        sourceText.innerText = "Chế độ tương thích cục bộ (Offline Fallback)";
+        if (sourceIndicator && sourceText) {
+          sourceIndicator.className = "quiz-source-badge fallback";
+          sourceText.innerText = "Chế độ offline (Dữ liệu cục bộ)";
+        }
       } else {
-        sourceIndicator.className = "quiz-source-badge wrong";
-        sourceText.innerText = "Lỗi tải bộ dữ liệu câu hỏi.";
+        if (sourceIndicator && sourceText) {
+          sourceIndicator.className = "quiz-source-badge wrong";
+          sourceText.innerText = "Lỗi tải bộ dữ liệu câu hỏi.";
+        }
         console.error("Không tìm thấy fallbackQuizQuestions.");
       }
     }
@@ -722,8 +821,21 @@ function initQuizGame() {
     currentNum.innerText = index + 1;
     totalNum.innerText = quizQuestions.length;
     
-    const progressPercent = ((index) / quizQuestions.length) * 100;
-    progressBar.style.width = progressPercent + "%";
+    const roundedPercent = Math.round((index / quizQuestions.length) * 100);
+    progressBar.style.width = roundedPercent + "%";
+    
+    const percentEl = document.getElementById("quiz-progress-percent");
+    if (percentEl) {
+      percentEl.innerText = roundedPercent + "%";
+    }
+    
+    // Tạo hiệu ứng trượt mượt mà cho câu hỏi mới
+    const questionContainer = document.querySelector(".quiz-question-container");
+    if (questionContainer) {
+      questionContainer.classList.remove("active-question");
+      void questionContainer.offsetWidth; // Kích hoạt reflow để chạy lại animation
+      questionContainer.classList.add("active-question");
+    }
     
     // Hiển thị câu hỏi
     questionText.innerText = q.question;
@@ -864,5 +976,36 @@ function initQuizGame() {
     screenPlay.classList.remove("hidden");
     
     showQuestion(currentQuestionIndex);
+  });
+}
+
+/* ==========================================================================
+   10. HIỆU ỨNG 3D TILT CHO HERO VISUAL
+   ========================================================================== */
+function initHeroTilt() {
+  const tiltCards = document.querySelectorAll('.js-tilt-card');
+
+  tiltCards.forEach((card) => {
+    card.addEventListener('mousemove', (e) => {
+      if (window.innerWidth < 1024) return;
+
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      const centerX = rect.width / 2;
+      const centerY = rect.height / 2;
+
+      const rotateX = ((y - centerY) / centerY) * -6;
+      const rotateY = ((x - centerX) / centerX) * 6;
+
+      card.style.animation = 'none';
+      card.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px) scale(1.02)`;
+    });
+
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+      card.style.animation = 'heroFloat3D 6s ease-in-out infinite';
+    });
   });
 }

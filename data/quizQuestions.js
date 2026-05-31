@@ -85,24 +85,24 @@ const fallbackQuizQuestions = [
     answer: "D"
   },
   {
-    question: "Ý nghĩa biểu tượng bó lúa 10 thân trên logo/cờ của ASEAN là gì?",
+    question: "Tính đến nay, ASEAN có bao nhiêu quốc gia thành viên chính thức và quốc gia nào mới gia nhập gần nhất?",
     options: [
-      "10 quốc gia sản xuất lúa gạo hàng đầu thế giới",
-      "Sự liên kết hữu nghị, đoàn kết của 10 quốc gia thành viên",
-      "Khát vọng xóa đói giảm nghèo ở khu vực nông thôn Đông Nam Á",
-      "10 tôn giáo lớn cùng chung sống hòa hợp tại khu vực"
+      "10 quốc gia, mới nhất là Campuchia (1999)",
+      "11 quốc gia, mới nhất là Lào (1997)",
+      "11 quốc gia, mới nhất là Timor-Leste (2025)",
+      "12 quốc gia, mới nhất là Papua New Guinea"
     ],
-    answer: "B"
+    answer: "C"
   },
   {
-    question: "Sự kiện kinh tế nổi bật nào do ASEAN dẫn dắt đã được ký kết thành công vào năm 2020 dưới sự chủ trì của Việt Nam?",
+    question: "Timor-Leste / Đông Timor chính thức trở thành thành viên thứ 11 của ASEAN vào năm nào và tại sự kiện nào?",
     options: [
-      "Thành lập Khu vực Mậu dịch Tự do ASEAN (AFTA)",
-      "Ký kết Hiệp định Đối tác Kinh tế Toàn diện Khu vực (RCEP)",
-      "Thành lập Cộng đồng Kinh tế ASEAN (AEC)",
-      "Ký kết Hiệp ước Thân thiện và Hợp tác (TAC)"
+      "Năm 2022 tại Hội nghị Cấp cao ASEAN lần thứ 40-41 ở Campuchia",
+      "Năm 2023 tại Hội nghị Cấp cao ASEAN lần thứ 42 ở Indonesia",
+      "Năm 2025 tại Hội nghị Cấp cao ASEAN lần thứ 47 ở Kuala Lumpur, Malaysia",
+      "Năm 2026 tại Hội nghị Cấp cao ASEAN lần thứ 48 ở Singapore"
     ],
-    answer: "B"
+    answer: "C"
   }
 ];
 

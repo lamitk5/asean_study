@@ -30,8 +30,8 @@ const aseanHistoryData = {
         id: "members",
         icon: "users",
         title: "Số thành viên hiện nay",
-        value: "10 quốc gia chính thức",
-        desc: "Quy tụ hầu hết các nước trong khu vực Đông Nam Á (Đông Timor hiện là quan sát viên và đang thực hiện lộ trình kết nạp)."
+        value: "11 quốc gia chính thức",
+        desc: "Quy tụ đầy đủ các nước trong khu vực Đông Nam Á, với Timor-Leste là thành viên mới nhất được kết nạp vào năm 2025."
       },
       {
         id: "hq",
@@ -52,7 +52,7 @@ const aseanHistoryData = {
       "Trước tình hình đó, các nhà lãnh đạo khu vực nhận thức rõ rằng: chỉ có hợp tác, liên kết lại với nhau mới có thể giảm thiểu căng thẳng chính trị, giải quyết hòa bình các tranh chấp lãnh thổ, tạo dựng môi trường ổn định để tập trung phát triển kinh tế - xã hội, và nâng cao tiếng nói chung của khu vực trên trường quốc tế.",
       "Mặc dù các nỗ lực hợp tác đa phương trước đó như Hiệp hội Đông Nam Á (ASA - 1961) hay liên minh MAPHILINDO (1963) thất bại do những bất đồng sâu sắc, nhưng chúng đã mở đường và để lại những bài học kinh nghiệm quý báu cho sự ra đời của một tổ chức hợp tác toàn diện hơn: đó chính là ASEAN."
     ],
-    imageUrl: "https://upload.wikimedia.org/wikipedia/commons/e/ee/Bangkok_Declaration_signing.jpg", // Link ảnh ký Tuyên bố Bangkok
+    imageUrl: "images/sang_lap_asean.jpg", // Link ảnh ký Tuyên bố Bangkok
     imageFallbackUrl: "https://images.unsplash.com/photo-1541872703-74c5e44368f9?auto=format&fit=crop&w=800&q=80",
     imageCaption: "Năm Ngoại trưởng sáng lập ASEAN ký Tuyên bố Bangkok ngày 8/8/1967 tại Cung điện Saranrom."
   },
@@ -203,11 +203,19 @@ const aseanHistoryData = {
         category: "strategy"
       },
       {
+        year: "2025",
+        title: "Timor-Leste chính thức gia nhập ASEAN",
+        date: "Ngày 26 tháng 10 năm 2025",
+        location: "Kuala Lumpur, Malaysia",
+        description: "Timor-Leste chính thức trở thành thành viên thứ 11 của ASEAN tại Hội nghị Cấp cao ASEAN lần thứ 47 diễn ra ở Kuala Lumpur, Malaysia, đánh dấu lần mở rộng đầu tiên của Hiệp hội kể từ khi Campuchia gia nhập năm 1999.",
+        category: "expansion"
+      },
+      {
         year: "Hiện tại",
-        title: "Khẳng định vai trò trung tâm & Kết nạp Đông Timor",
-        date: "Từ 2022 đến nay",
+        title: "Khẳng định vai trò trung tâm của ASEAN-11",
+        date: "Hiện tại",
         location: "Khu vực Đông Nam Á",
-        description: "ASEAN kiên trì khẳng định Vai trò trung tâm (Centrality) trong các cấu trúc an ninh khu vực châu Á - Thái Bình Dương. Tại Hội nghị cấp cao lần thứ 40-41 (2022), ASEAN đã đồng ý về mặt nguyên tắc kết nạp Đông Timor làm thành viên thứ 11 và đang tích cực triển khai lộ trình kết nạp đầy đủ.",
+        description: "Hiệp hội với 11 nước thành viên kiên trì khẳng định Vai trò trung tâm (Centrality) trong các cấu trúc an ninh và kinh tế khu vực châu Á - Thái Bình Dương, phát huy sức mạnh của sự đoàn kết và tự cường.",
         category: "strategy"
       }
     ]
@@ -215,7 +223,7 @@ const aseanHistoryData = {
 
   members: {
     title: "Các quốc gia thành viên ASEAN",
-    subtitle: "Mười sắc màu đa dạng tạo nên bức tranh thống nhất của Đông Nam Á",
+    subtitle: "Mười một sắc màu đa dạng tạo nên bức tranh thống nhất của Đông Nam Á",
     countries: [
       {
         id: "bn",
@@ -346,6 +354,19 @@ const aseanHistoryData = {
         nationalFlower: "Hoa Sen (Nelumbo nucifera) - Biểu tượng văn hóa phi chính thức",
         currency: "Việt Nam Đồng (VND)",
         description: "Quốc gia hình chữ S với tinh thần kiên cường tự chủ, lịch sử đấu tranh hào hùng dựng nước và giữ nước. Việt Nam hiện là đầu tàu tăng trưởng năng động hàng đầu Đông Nam Á và đóng vai trò nòng cốt xây dựng Cộng đồng ASEAN."
+      },
+      {
+        id: "tl",
+        name: "Timor-Leste",
+        vietnameseName: "Đông Timor",
+        flag: "https://flagcdn.com/tl.svg",
+        landmark: "images/Timor-Leste-1651-1521620883.webp",
+        joinYear: 2025,
+        joinDate: "26/10/2025",
+        capital: "Dili",
+        nationalFlower: "Đang cập nhật",
+        currency: "Đô la Mỹ (USD)",
+        description: "Timor-Leste trở thành thành viên thứ 11 của ASEAN vào năm 2025, đánh dấu bước mở rộng mới của Hiệp hội sau hơn hai thập kỷ."
       }
     ]
   },
