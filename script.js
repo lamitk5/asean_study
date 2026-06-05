@@ -178,7 +178,9 @@ function initMobileMenu() {
     } else {
       icon.setAttribute("data-lucide", "menu");
     }
-    lucide.createIcons();
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
   });
   
   // Đóng menu khi click vào một liên kết bất kỳ và cuộn mượt đến section
@@ -195,7 +197,9 @@ function initMobileMenu() {
         const icon = menuToggle.querySelector("i");
         if (icon) {
           icon.setAttribute("data-lucide", "menu");
-          lucide.createIcons();
+          if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+          }
         }
         
         // Cuộn mượt bằng scrollIntoView để tự động áp dụng CSS scroll-margin-top / scroll-padding-top
@@ -285,6 +289,10 @@ function populateAcademicData(data) {
   // --- D. TIMELINE LỊCH SỬ ---
   const timelineContainer = document.getElementById("timeline-container");
   if (timelineContainer) {
+    let currentLayout = ''; // 'desktop' or 'mobile'
+    let isResettingStage = false;
+    let activeStage = 1; // Track active stage state
+
     const getTimelineIcon = (category) => {
       switch (category) {
         case "establishment": return "flag";
@@ -296,39 +304,428 @@ function populateAcademicData(data) {
       }
     };
 
-    timelineContainer.innerHTML = data.timeline.milestones.map((m, idx) => {
-      const alignClass = idx % 2 === 0 ? "left" : "right";
-      const iconName = getTimelineIcon(m.category);
-      return `
-        <div class="timeline-item ${alignClass}">
-          <div class="timeline-dot">
-            <i data-lucide="${iconName}"></i>
-          </div>
-          <div class="timeline-content">
-            <div class="timeline-year-huge">${m.year}</div>
-            <span class="timeline-badge-year">${m.year}</span>
-            
-            <div class="timeline-meta-row">
-              <div class="timeline-date">
-                <i data-lucide="calendar"></i>
-                <span>${m.date}</span>
-              </div>
-              <div class="timeline-location">
-                <i data-lucide="map-pin"></i>
-                <span>${m.location}</span>
+    const stageMeta = {
+      1: { num: "I", label: "Khởi đầu, định hình và xác lập nguyên tắc cơ bản", sub: "1967 – 1976" },
+      2: { num: "II", label: "Tiến trình kết nạp thành viên mới và đẩy mạnh liên kết khu vực", sub: "1976 – 1999" },
+      3: { num: "III", label: "Thể chế hóa và đặt nền móng xây dựng Cộng đồng", sub: "1999 – 2015" },
+      4: { num: "IV", label: "Cộng đồng ASEAN - Hội nhập toàn diện và tự cường", sub: "2015 – Nay" }
+    };
+
+    const updateTimelineProgress = (stageNum) => {
+      activeStage = stageNum;
+      const fill = document.getElementById("timeline-progress-fill");
+      if (fill) {
+        const percent = ((stageNum - 1) / 3) * 100;
+        fill.style.width = `${percent}%`;
+      }
+      
+      const titleEl = document.getElementById("active-stage-title");
+      if (titleEl) {
+        const s = stageMeta[stageNum];
+        titleEl.innerHTML = `Giai Đoạn ${s.num}: <span class="active-stage-name">${s.label}</span> <span class="active-stage-years">(${s.sub})</span>`;
+      }
+    };
+
+    const renderTimeline = () => {
+      const isDesktop = window.innerWidth >= 993;
+      const neededLayout = isDesktop ? 'desktop' : 'mobile';
+      
+      if (currentLayout === neededLayout) return;
+      currentLayout = neededLayout;
+
+      let buttonsHtml = '';
+      let panelsHtml = '';
+
+      // Build Buttons
+      Object.keys(stageMeta).forEach((stageKey) => {
+        const stage = parseInt(stageKey);
+        const s = stageMeta[stage];
+        const isActive = stage === activeStage ? 'active' : '';
+
+        buttonsHtml += `
+          <button class="timeline-stage-btn ${isActive}" data-stage="${stage}">
+            <span class="stage-btn-roman">${s.num}</span>
+            <span class="stage-btn-label">Giai Đoạn ${s.num}</span>
+            <span class="stage-btn-name">${s.label}</span>
+            <span class="stage-btn-years">${s.sub}</span>
+          </button>
+        `;
+      });
+
+      if (neededLayout === 'desktop') {
+        // PC Layout: Single continuous timeline panel
+        let milestonesHtml = '';
+        data.timeline.milestones.forEach((m) => {
+          const iconName = getTimelineIcon(m.category);
+          milestonesHtml += `
+            <div class="milestone-card" data-stage="${m.stage || 1}">
+              <div class="milestone-year-badge">${m.year}</div>
+              <div class="milestone-icon"><i data-lucide="${iconName}"></i></div>
+              <div class="milestone-body">
+                <div class="milestone-meta">
+                  <span><i data-lucide="calendar"></i>${m.date}</span>
+                  <span><i data-lucide="map-pin"></i>${m.location}</span>
+                </div>
+                <h4>${m.title}</h4>
+                <p>${m.description}</p>
               </div>
             </div>
-            
-            <h3>${m.title}</h3>
-            <p class="timeline-desc">${m.description}</p>
+          `;
+        });
+
+        panelsHtml = `
+          <div class="timeline-panel active" data-stage="all">
+            ${milestonesHtml}
+            <div class="timeline-progress-track"></div>
+            <div class="timeline-progress-bar"></div>
+          </div>
+        `;
+      } else {
+        // Mobile Layout: 4 separate stage panels
+        const stageGroups = {};
+        data.timeline.milestones.forEach((m) => {
+          const st = m.stage || 1;
+          if (!stageGroups[st]) stageGroups[st] = [];
+          stageGroups[st].push(m);
+        });
+
+        Object.keys(stageGroups).forEach((stageKey) => {
+          const stage = parseInt(stageKey);
+          const milestones = stageGroups[stage];
+          const isActive = stage === activeStage ? 'active' : '';
+
+          let milestonesHtml = '';
+          milestones.forEach((m) => {
+            const iconName = getTimelineIcon(m.category);
+            milestonesHtml += `
+              <div class="milestone-card" data-stage="${stage}">
+                <div class="milestone-year-badge">${m.year}</div>
+                <div class="milestone-icon"><i data-lucide="${iconName}"></i></div>
+                <div class="milestone-body">
+                  <div class="milestone-meta">
+                    <span><i data-lucide="calendar"></i>${m.date}</span>
+                    <span><i data-lucide="map-pin"></i>${m.location}</span>
+                  </div>
+                  <h4>${m.title}</h4>
+                  <p>${m.description}</p>
+                </div>
+              </div>
+            `;
+          });
+
+          panelsHtml += `
+            <div class="timeline-panel ${isActive}" data-stage="${stage}">
+              ${milestonesHtml}
+              <div class="timeline-progress-track"></div>
+              <div class="timeline-progress-bar"></div>
+            </div>
+          `;
+        });
+      }
+
+      timelineContainer.innerHTML = `
+        <div class="timeline-horizontal">
+          <div class="timeline-stages-bar">
+            <div class="timeline-horz-progress">
+              <div class="timeline-progress-fill" id="timeline-progress-fill"></div>
+            </div>
+            ${buttonsHtml}
+          </div>
+          
+          <div class="active-stage-header">
+            <h3 class="active-stage-title" id="active-stage-title">Giai Đoạn I: Khởi đầu, định hình và xác lập nguyên tắc cơ bản (1967 – 1976)</h3>
+          </div>
+
+          <div class="timeline-slider-container">
+            <button class="timeline-nav-btn prev-btn" id="timeline-prev-btn" aria-label="Mốc trước">
+              <i data-lucide="chevron-left"></i>
+            </button>
+            <button class="timeline-nav-btn next-btn" id="timeline-next-btn" aria-label="Mốc tiếp theo">
+              <i data-lucide="chevron-right"></i>
+            </button>
+
+            <div class="timeline-panels-wrapper">
+              ${panelsHtml}
+            </div>
           </div>
         </div>
       `;
-    }).join('');
-    
-    if (window.lucide) {
-      window.lucide.createIcons();
-    }
+
+      // Reinitialize Lucide icons
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+
+      // Bind interaction event listeners
+      initTimelineInteractions();
+    };
+
+    const initTimelineInteractions = () => {
+      const prevBtn = document.getElementById("timeline-prev-btn");
+      const nextBtn = document.getElementById("timeline-next-btn");
+      const panelsWrapper = timelineContainer.querySelector(".timeline-panels-wrapper");
+
+      if (!panelsWrapper) return;
+
+      const updateNavButtons = () => {
+        const scrollLeft = panelsWrapper.scrollLeft;
+        const maxScroll = panelsWrapper.scrollWidth - panelsWrapper.clientWidth;
+        
+        if (prevBtn && nextBtn) {
+          if (scrollLeft <= 5) {
+            prevBtn.classList.add("disabled");
+          } else {
+            prevBtn.classList.remove("disabled");
+          }
+          
+          if (scrollLeft >= maxScroll - 5) {
+            nextBtn.classList.add("disabled");
+          } else {
+            nextBtn.classList.remove("disabled");
+          }
+        }
+
+        const isDesktop = window.innerWidth >= 993;
+        const activePanel = isDesktop 
+          ? panelsWrapper.querySelector('.timeline-panel')
+          : panelsWrapper.querySelector(`.timeline-panel[data-stage="${activeStage}"]`);
+
+        if (activePanel) {
+          const track = activePanel.querySelector('.timeline-progress-track');
+          const bar = activePanel.querySelector('.timeline-progress-bar');
+          if (track && bar) {
+            const cards = activePanel.querySelectorAll('.milestone-card');
+            if (cards.length > 0) {
+              const firstCard = cards[0];
+              const lastCard = cards[cards.length - 1];
+              const selectedCard = activePanel.querySelector('.milestone-card.selected') || lastCard;
+
+              if (isDesktop) {
+                track.style.top = '';
+                track.style.height = '';
+                bar.style.top = '';
+                bar.style.height = '';
+
+                const firstCenter = firstCard.offsetLeft + firstCard.offsetWidth / 2;
+                const selectedCenter = selectedCard.offsetLeft + selectedCard.offsetWidth / 2;
+                
+                track.style.left = `${firstCenter}px`;
+                track.style.width = `calc(100% - ${firstCenter + 20}px)`;
+                
+                bar.style.left = `${firstCenter}px`;
+                if (isResettingStage) {
+                  bar.style.width = '0px';
+                } else {
+                  bar.style.width = `${selectedCenter - firstCenter}px`;
+                }
+
+                // Scroll Spy on Desktop
+                if (!isResettingStage) {
+                  let closestCard = cards[0];
+                  let minDiff = Infinity;
+                  const wrapperCenter = panelsWrapper.scrollLeft + panelsWrapper.clientWidth / 2;
+                  
+                  cards.forEach((card) => {
+                    const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+                    const diff = Math.abs(cardCenter - wrapperCenter);
+                    if (diff < minDiff) {
+                      minDiff = diff;
+                      closestCard = card;
+                    }
+                  });
+                  
+                  const currentStage = parseInt(closestCard.dataset.stage || 1);
+                  updateTimelineProgress(currentStage);
+                  timelineContainer.querySelectorAll('.timeline-stage-btn').forEach((btn) => {
+                    btn.classList.toggle('active', parseInt(btn.dataset.stage) === currentStage);
+                  });
+                }
+              } else {
+                track.style.left = '';
+                track.style.width = '';
+                bar.style.left = '';
+                bar.style.width = '';
+
+                const isSmallMobile = window.innerWidth < 768;
+                const dotOffset = isSmallMobile ? 25 : 31;
+                
+                const firstCenterY = firstCard.offsetTop + dotOffset;
+                const lastCenterY = lastCard.offsetTop + dotOffset;
+                const selectedCenterY = selectedCard.offsetTop + dotOffset;
+
+                track.style.top = `${firstCenterY}px`;
+                track.style.height = `${lastCenterY - firstCenterY}px`;
+                
+                bar.style.top = `${firstCenterY}px`;
+                if (isResettingStage) {
+                  bar.style.height = '0px';
+                } else {
+                  bar.style.height = `${selectedCenterY - firstCenterY}px`;
+                }
+              }
+            }
+          }
+        }
+      };
+
+      if (prevBtn && nextBtn) {
+        prevBtn.addEventListener("click", () => {
+          panelsWrapper.scrollBy({ left: -380, behavior: "smooth" });
+        });
+        nextBtn.addEventListener("click", () => {
+          panelsWrapper.scrollBy({ left: 380, behavior: "smooth" });
+        });
+      }
+
+      // Helper function to switch stage, select defaults, and scroll/swap
+      const selectStage = (stageNum, scrollBehavior = 'smooth') => {
+        activeStage = stageNum;
+        const isDesktop = window.innerWidth >= 993;
+
+        // 1. Update active stage button at the top
+        timelineContainer.querySelectorAll('.timeline-stage-btn').forEach((btn) => {
+          btn.classList.toggle('active', parseInt(btn.dataset.stage) === stageNum);
+        });
+
+        // 2. Clear progress styling briefly if it's smooth scroll to prevent flash
+        if (scrollBehavior === 'smooth') {
+          isResettingStage = true;
+          timelineContainer.querySelectorAll('.timeline-progress-bar').forEach((b) => {
+            b.style.width = '0px';
+            b.style.height = '0px';
+          });
+        }
+
+        if (isDesktop) {
+          // Desktop behavior: scroll inside single panel
+          const panel = timelineContainer.querySelector('.timeline-panel');
+          const stageCards = panel.querySelectorAll(`.milestone-card[data-stage="${stageNum}"]`);
+          
+          if (stageCards.length > 0) {
+            const targetCard = stageCards[stageCards.length - 1];
+            panel.querySelectorAll('.milestone-card').forEach((c) => {
+              c.classList.toggle('selected', c === targetCard);
+            });
+
+            const firstCardOfStage = stageCards[0];
+            const cardCenter = firstCardOfStage.offsetLeft + firstCardOfStage.offsetWidth / 2;
+            const targetScroll = cardCenter - panelsWrapper.clientWidth / 2;
+            panelsWrapper.scrollTo({
+              left: targetScroll,
+              behavior: scrollBehavior
+            });
+          }
+        } else {
+          // Mobile/Tablet behavior: swap panels
+          timelineContainer.querySelectorAll('.timeline-panel').forEach((p) => {
+            p.classList.toggle('active', parseInt(p.dataset.stage) === stageNum);
+          });
+
+          // Reset scroll inside wrapper
+          panelsWrapper.scrollLeft = 0;
+
+          // Auto select last card of this stage's panel
+          const activePanel = timelineContainer.querySelector(`.timeline-panel[data-stage="${stageNum}"]`);
+          if (activePanel) {
+            const cards = activePanel.querySelectorAll('.milestone-card');
+            if (cards.length > 0) {
+              const targetCard = cards[cards.length - 1];
+              cards.forEach((c) => {
+                c.classList.toggle('selected', c === targetCard);
+              });
+            }
+          }
+        }
+
+        updateTimelineProgress(stageNum);
+        updateNavButtons();
+
+        if (scrollBehavior === 'smooth') {
+          setTimeout(() => {
+            isResettingStage = false;
+            updateNavButtons();
+          }, 400);
+        }
+      };
+
+      // Click stage button => switch stage
+      timelineContainer.querySelectorAll('.timeline-stage-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const stage = parseInt(btn.dataset.stage);
+          selectStage(stage, 'smooth');
+        });
+      });
+
+      // Click card => highlight and sync
+      panelsWrapper.addEventListener('click', (e) => {
+        const card = e.target.closest('.milestone-card');
+        if (card) {
+          const panel = card.closest('.timeline-panel');
+          if (panel) {
+            panel.querySelectorAll('.milestone-card').forEach((c) => {
+              c.classList.toggle('selected', c === card);
+            });
+            
+            const stage = parseInt(card.dataset.stage || activeStage);
+            updateTimelineProgress(stage);
+            
+            timelineContainer.querySelectorAll('.timeline-stage-btn').forEach((btn) => {
+              btn.classList.toggle('active', parseInt(btn.dataset.stage) === stage);
+            });
+
+            // On mobile, if card click changes the stage, we also make sure the correct panel is active
+            if (window.innerWidth < 993) {
+              timelineContainer.querySelectorAll('.timeline-panel').forEach((p) => {
+                p.classList.toggle('active', parseInt(p.dataset.stage) === stage);
+              });
+            }
+
+            updateNavButtons();
+            
+            // Scroll clicked card to center on PC
+            if (window.innerWidth >= 993) {
+              const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+              const targetScroll = cardCenter - panelsWrapper.clientWidth / 2;
+              panelsWrapper.scrollTo({
+                left: targetScroll,
+                behavior: 'smooth'
+              });
+            }
+          }
+        }
+      });
+
+      panelsWrapper.addEventListener("scroll", updateNavButtons);
+      window.addEventListener("resize", updateNavButtons);
+      
+      if (window.ResizeObserver) {
+        const resizeObserver = new ResizeObserver(() => {
+          updateNavButtons();
+        });
+        resizeObserver.observe(panelsWrapper);
+      }
+
+      // Initial update on bind
+      updateTimelineProgress(activeStage);
+      updateNavButtons();
+    };
+
+    // Initial load
+    renderTimeline();
+
+    // Re-render timeline if layout crossed screen width threshold on window resize
+    window.addEventListener('resize', () => {
+      renderTimeline();
+    });
+
+    // Run first stage selection after load
+    setTimeout(() => {
+      timelineContainer.querySelectorAll('.timeline-stage-btn').forEach((btn) => {
+        if (parseInt(btn.dataset.stage) === 1) {
+          btn.click(); // Trigger initial stage 1 click to run full logic
+        }
+      });
+    }, 150);
   }
 
   // --- E. CÁC NƯỚC THÀNH VIÊN & CHI TIẾT MODAL ---
@@ -535,7 +932,9 @@ function populateAcademicData(data) {
   }
 
   // Kích hoạt lại Lucide icons cho tất cả các phần tử mới được chèn động
-  lucide.createIcons();
+  if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
 }
 
 /* ==========================================================================
@@ -898,11 +1297,15 @@ function initQuizGame() {
     if (currentQuestionIndex === quizQuestions.length - 1) {
       btnNext.querySelector("span").innerText = "Xem kết quả";
       btnNext.querySelector("i").setAttribute("data-lucide", "trophy");
-      lucide.createIcons();
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
     } else {
       btnNext.querySelector("span").innerText = "Câu tiếp theo";
       btnNext.querySelector("i").setAttribute("data-lucide", "arrow-right");
-      lucide.createIcons();
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
     }
   }
 
@@ -963,7 +1366,9 @@ function initQuizGame() {
     const iconContainer = document.getElementById("quiz-result-icon");
     iconContainer.className = `quiz-icon-large ${iconClass}`;
     iconContainer.innerHTML = `<i data-lucide="${iconName}"></i>`;
-    lucide.createIcons();
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
   }
 
   // I. CHƠI LẠI QUIZ

@@ -21,7 +21,7 @@
   <script src="https://unpkg.com/lucide@latest"></script>
   
   <!-- File CSS chính -->
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=2.0">
 </head>
 <body class="light-mode">
 
@@ -584,14 +584,16 @@
   </div>
 
   <!-- DỮ LIỆU TĨNH VÀ SCRIPT LOGIC -->
-  <script src="data/aseanHistory.js" charset="utf-8"></script>
-  <script src="data/quizQuestions.js" charset="utf-8"></script>
-  <script src="script.js" charset="utf-8"></script>
+  <script src="data/aseanHistory.js?v=2.0" charset="utf-8"></script>
+  <script src="data/quizQuestions.js?v=2.0" charset="utf-8"></script>
+  <script src="script.js?v=2.0" charset="utf-8"></script>
 
   <script>
     // Khởi tạo các icon của Lucide ngay sau khi DOM load
     document.addEventListener("DOMContentLoaded", function() {
-      lucide.createIcons();
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
     });
   </script>
 </body>

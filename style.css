@@ -528,6 +528,11 @@ header.scrolled {
   padding: 5px 0;
 }
 
+header.header-hidden {
+  transform: translateY(-100%);
+  pointer-events: none;
+}
+
 .header-container {
   display: flex;
   justify-content: space-between;
@@ -1552,235 +1557,492 @@ body.dark-mode #background,
 }
 
 /* ==========================================================================
-   5. TIMELINE LỊCH SỬ (DÒNG THỜI GIAN)
+   5. TIMELINE LỊCH SỬ (DÒNG THỜI GIAN) — HORIZONTAL
    ========================================================================== */
 .timeline-wrapper {
   position: relative;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 50px 0;
+  padding: 40px 0 20px;
 }
 
-/* Trục dọc trung tâm */
-.timeline-wrapper::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50%;
-  width: 4px;
-  background: linear-gradient(to bottom, var(--primary-color) 0%, var(--accent-color) 50%, var(--primary-color) 100%);
-  transform: translateX(-50%);
-  border-radius: 4px;
-  box-shadow: 0 0 10px rgba(0, 43, 91, 0.15);
+.timeline-horizontal {
+  display: flex;
+  flex-direction: column;
 }
 
-.timeline-item {
+/* ── Stepper Track & Progress Fill ── */
+.timeline-stages-bar {
   position: relative;
-  width: 50%;
-  padding: 0 45px;
-  margin-bottom: 60px;
-  opacity: 0;
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 16px;
+  padding: 30px 0;
+  margin-bottom: 20px;
 }
 
-.timeline-item.left {
-  left: 0;
-  text-align: right;
-  transform: translateX(-40px);
-}
-
-.timeline-item.right {
-  left: 50%;
-  text-align: left;
-  transform: translateX(40px);
-}
-
-.timeline-item.show {
-  opacity: 1;
-  transform: translateX(0) translateY(0);
-}
-
-.timeline-item:last-child {
-  margin-bottom: 0;
-}
-
-/* Nút chấm tròn lớn trên trục chứa Icon */
-.timeline-dot {
+.timeline-horz-progress {
   position: absolute;
-  top: 20px;
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  background-color: var(--bg-card);
-  border: 3px solid var(--primary-color);
-  z-index: 10;
+  top: 53px; /* Exactly aligns with Roman circles center (20px padding + 23px half-circle) */
+  left: 10%;
+  right: 10%;
+  height: 6px;
+  background: var(--border-color);
+  border-radius: 6px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.timeline-progress-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+  transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 6px;
+}
+
+/* ── Redesigned Stage Card Button ── */
+.timeline-stage-btn {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  background: var(--bg-card);
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--card-shadow);
+  text-align: center;
+  user-select: none;
+}
+
+.timeline-stage-btn:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-3px);
+  box-shadow: var(--hover-shadow);
+}
+
+.timeline-stage-btn.active {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  box-shadow: 0 12px 30px rgba(0, 45, 98, 0.2);
+  transform: translateY(-4px);
+}
+
+body.dark-mode .timeline-stage-btn.active {
+  background: #1e293b;
+  border-color: var(--accent-color);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* Roman numeral inside circle */
+.stage-btn-roman {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
   color: var(--primary-color);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: var(--transition-smooth);
+  font-family: var(--font-main); /* Using main font for optimal Vietnamese & numeral clarity */
+  font-size: 1.1rem;
+  font-weight: 800;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
 }
 
-.timeline-dot i {
+body.dark-mode .stage-btn-roman {
+  color: var(--accent-color);
+  background: #0f172a;
+}
+
+.timeline-stage-btn:hover .stage-btn-roman {
+  background: var(--primary-color);
+  border-color: var(--primary-color);
+  color: #FFFFFF;
+}
+
+body.dark-mode .timeline-stage-btn:hover .stage-btn-roman {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+  color: #000000;
+}
+
+.timeline-stage-btn.active .stage-btn-roman {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+  color: var(--asean-blue); /* Dark blue contrast on yellow circle */
+  box-shadow: 0 0 0 4px rgba(255, 193, 7, 0.3);
+  transform: scale(1.05);
+}
+
+.timeline-stage-btn .stage-btn-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.timeline-stage-btn.active .stage-btn-label {
+  color: var(--accent-color);
+}
+
+.timeline-stage-btn .stage-btn-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--heading-color);
+  line-height: 1.35;
+  max-width: 180px;
+  font-family: var(--font-main); /* Optimized for Vietnamese diacritics */
+  transition: all 0.3s ease;
+}
+
+.timeline-stage-btn.active .stage-btn-name {
+  color: #FFFFFF;
+}
+
+.timeline-stage-btn .stage-btn-years {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  background: rgba(0, 45, 98, 0.06);
+  padding: 4px 12px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+body.dark-mode .timeline-stage-btn .stage-btn-years {
+  color: var(--accent-color);
+  background: rgba(255, 193, 7, 0.1);
+}
+
+.timeline-stage-btn.active .stage-btn-years {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ── Active Stage Header Banner (Default: Mobile/Tablet view) ── */
+.active-stage-header {
+  text-align: center;
+  margin: 15px auto 25px auto;
+  max-width: 800px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, rgba(0, 45, 98, 0.04), rgba(255, 193, 7, 0.04));
+  border: 1px dashed var(--border-color);
+  border-radius: 16px;
+  animation: headerFadeIn 0.5s ease;
+}
+
+body.dark-mode .active-stage-header {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.06), rgba(250, 204, 21, 0.06));
+}
+
+.active-stage-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--heading-color);
+  margin: 0;
+  font-family: var(--font-main);
+  line-height: 1.45;
+}
+
+.active-stage-name {
+  color: var(--primary-color);
+}
+
+body.dark-mode .active-stage-name {
+  color: var(--link-color);
+}
+
+.active-stage-years {
+  color: var(--accent-text);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+@keyframes headerFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Milestones Panel & Vertical Line ── */
+.timeline-panels-wrapper {
+  position: relative;
+  margin-top: 20px;
+}
+
+.timeline-panel {
+  display: none;
+  position: relative;
+  flex-direction: column;
+  gap: 35px;
+  padding: 30px 0;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.timeline-panel.active {
+  display: flex;
+}
+
+/* Vertical line down the center (Old static line, now replaced by progress track/bar) */
+.timeline-panel::before {
+  display: none !important;
+}
+
+/* Dynamic vertical timeline progress track & bar (Mobile/Tablet default) */
+.timeline-progress-track {
+  display: block;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  background: var(--text-muted);
+  border-radius: 2px;
+  z-index: 1;
+  opacity: 0.25;
+}
+
+.timeline-progress-bar {
+  display: block;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  background: linear-gradient(180deg, var(--primary-color), var(--accent-color));
+  border-radius: 2px;
+  z-index: 2;
+  box-shadow: 0 0 8px var(--accent-color), 0 0 15px rgba(255, 193, 7, 0.4);
+  transition: height 0.3s cubic-bezier(0.1, 0.8, 0.2, 1);
+}
+
+/* ── Milestone Card ── */
+.milestone-card {
+  position: relative;
+  width: calc(50% - 35px);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--card-shadow);
+  z-index: 2;
+}
+
+/* Alternate left and right */
+.timeline-panel .milestone-card:nth-child(odd) {
+  align-self: flex-start;
+}
+
+.timeline-panel .milestone-card:nth-child(even) {
+  align-self: flex-end;
+}
+
+/* Dots on center timeline track */
+.milestone-card::after {
+  content: '';
+  position: absolute;
+  top: 22px;
   width: 18px;
   height: 18px;
-  stroke-width: 2.5px;
-  transition: var(--transition-smooth);
+  border-radius: 50%;
+  background: var(--accent-color);
+  border: 4px solid var(--bg-card);
+  box-shadow: 0 0 0 3px rgba(0, 45, 98, 0.12);
+  z-index: 5;
+  transition: all 0.3s ease;
 }
 
-.timeline-item.left .timeline-dot {
-  right: -23px;
+body.dark-mode .milestone-card::after {
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+  border-color: var(--bg-card);
 }
 
-.timeline-item.right .timeline-dot {
-  left: -23px;
+.timeline-panel .milestone-card:nth-child(odd)::after {
+  right: -45px;
 }
 
-.timeline-item.show .timeline-dot {
-  background-color: var(--accent-color);
-  border-color: var(--accent-color);
-  color: var(--primary-color);
-  transform: scale(1.15);
-  box-shadow: 0 0 15px rgba(245, 179, 1, 0.5);
+.timeline-panel .milestone-card:nth-child(even)::after {
+  left: -45px;
 }
 
-/* Hộp nội dung timeline */
-.timeline-content {
-  background-color: var(--bg-card);
-  padding: 35px;
-  border-radius: var(--border-radius-lg);
-  box-shadow: var(--card-shadow);
-  border: 1px solid var(--border-color);
-  position: relative;
-  overflow: hidden;
-  transition: var(--transition-smooth);
-  border-top: 4px solid var(--primary-color);
-}
-
-.timeline-content:hover {
-  transform: translateY(-8px);
+.milestone-card:hover {
+  transform: translateY(-5px);
   box-shadow: var(--hover-shadow);
-  border-top-color: var(--accent-color);
+  border-color: var(--accent-color);
 }
 
-/* Nền năm siêu lớn phía sau làm watermark */
-.timeline-year-huge {
-  position: absolute;
-  top: 15px;
-  right: 25px;
+.milestone-card:hover::after {
+  background: var(--primary-color);
+  transform: scale(1.2);
+  box-shadow: 0 0 0 5px rgba(255, 193, 7, 0.3);
+}
+
+/* Card selected styling */
+.milestone-card.selected {
+  border-color: var(--accent-color) !important;
+  box-shadow: var(--hover-shadow) !important;
+  transform: translateY(-5px) !important;
+}
+
+.milestone-card.selected::after {
+  background: var(--primary-color) !important;
+  transform: scale(1.2) !important;
+  box-shadow: 0 0 0 5px rgba(255, 193, 7, 0.4) !important;
+  z-index: 6 !important;
+}
+
+.milestone-card.selected .milestone-body h4 {
+  color: var(--accent-color) !important;
+}
+
+body.dark-mode .milestone-card.selected .milestone-body h4 {
+  color: #FFFFFF !important;
+}
+
+.milestone-year-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
   font-family: var(--font-title);
-  font-size: 3.5rem;
-  font-weight: 900;
-  color: rgba(0, 43, 91, 0.05);
-  line-height: 1;
-  pointer-events: none;
-  transition: var(--transition-smooth);
-}
-
-/* Card bên trái: watermark sang góc trên bên trái để không đè badge năm */
-.timeline-item.left .timeline-year-huge {
-  right: auto;
-  left: 25px;
-}
-
-body.dark-mode .timeline-year-huge {
-  color: rgba(255, 255, 255, 0.04);
-}
-
-.timeline-content:hover .timeline-year-huge {
-  color: rgba(245, 179, 1, 0.12);
-  transform: scale(1.1) rotate(-5deg);
-}
-
-/* Badge năm nổi bật ở đầu card */
-.timeline-badge-year {
-  display: inline-block;
-  padding: 5px 14px;
-  font-family: var(--font-title);
-  font-size: 0.95rem;
+  font-size: 1.15rem;
   font-weight: 800;
   color: #FFFFFF;
-  background-color: var(--primary-color);
-  border-radius: 20px;
-  margin-bottom: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  position: relative;
-  z-index: 2;
-  transition: var(--transition-smooth);
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+  letter-spacing: 0.5px;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
 }
 
-.timeline-item.show .timeline-badge-year {
-  background-color: var(--primary-color);
+.milestone-icon {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
   color: #FFFFFF;
+  z-index: 3;
 }
 
-.timeline-content:hover .timeline-badge-year {
-  background-color: var(--accent-color);
-  color: var(--primary-color);
+.milestone-icon i {
+  width: 16px;
+  height: 16px;
+  stroke-width: 2.5px;
 }
 
-/* Meta row chứa ngày và địa điểm */
-.timeline-meta-row {
+.milestone-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.milestone-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
-  margin-bottom: 15px;
-}
-
-.timeline-item.left .timeline-meta-row {
-  justify-content: flex-end;
-}
-
-.timeline-item.right .timeline-meta-row {
-  justify-content: flex-start;
-}
-
-.timeline-date, .timeline-location {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.82rem;
+  gap: 10px 16px;
+  font-size: 0.8rem;
   font-weight: 600;
   color: var(--text-muted);
 }
 
-.timeline-date i, .timeline-location i {
-  width: 14px;
-  height: 14px;
-  color: var(--accent-color);
+.milestone-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.timeline-content h3 {
-  font-size: 1.3rem;
+.milestone-meta i {
+  width: 13px;
+  height: 13px;
+  color: var(--accent-color);
+  flex-shrink: 0;
+}
+
+.milestone-body h4 {
+  font-size: 1.15rem;
   font-weight: 700;
-  margin-bottom: 12px;
-  color: var(--text-color);
-  transition: var(--transition-smooth);
+  color: var(--heading-color);
+  margin: 0;
+  font-family: var(--font-main); /* Optimized for Vietnamese diacritics */
+  line-height: 1.45; /* Adjusted for better spacing of accents */
 }
 
-.timeline-content:hover h3 {
-  color: var(--primary-color);
-}
-
-body.dark-mode .timeline-content:hover h3 {
-  color: var(--accent-color);
-}
-
-.timeline-desc {
-  font-size: 0.92rem;
-  color: var(--text-muted);
-  line-height: 1.6;
+.milestone-body p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin: 0;
   text-align: justify;
 }
 
-.timeline-item.left .timeline-desc {
-  text-align-last: right;
+/* ── Timeline: Dark Mode Overrides ── */
+body.dark-mode .milestone-card {
+  border-color: var(--border-color);
 }
 
-.timeline-item.right .timeline-desc {
-  text-align-last: left;
+body.dark-mode .milestone-card:hover {
+  border-color: var(--accent-color);
+  box-shadow: 0 12px 40px rgba(255, 193, 7, 0.08);
+}
+
+body.dark-mode .milestone-year-badge {
+  background: linear-gradient(135deg, #002b5b, #004080);
+}
+
+body.dark-mode .milestone-icon {
+  background: rgba(0, 43, 91, 0.4);
+}
+
+body.dark-mode .timeline-stage-btn .stage-btn-roman {
+  background: var(--bg-card);
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
+body.dark-mode .timeline-stage-btn:hover .stage-btn-roman {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+body.dark-mode .timeline-stage-btn.active .stage-btn-roman {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+  color: #001a33;
+  box-shadow: 0 0 0 5px rgba(255, 193, 7, 0.25);
+}
+
+body.dark-mode .timeline-stage-btn .stage-btn-name {
+  color: var(--heading-color);
+}
+
+body.dark-mode .milestone-meta i {
+  color: var(--accent-color);
 }
 
 /* ==========================================================================
@@ -3608,48 +3870,95 @@ footer {
     gap: 40px;
   }
   
-  .timeline-wrapper::before {
-    left: 20px;
-    transform: none;
-  }
-  
-  .timeline-item {
-    width: 100% !important;
-    left: 0 !important;
-    padding-left: 55px !important;
-    padding-right: 0 !important;
-    text-align: left !important;
-    margin-bottom: 40px;
-    transform: translateY(30px) !important;
+  .timeline-wrapper {
+    padding: 30px 0 10px;
   }
 
-  .timeline-item.show {
-    opacity: 1 !important;
-    transform: translateY(0) !important;
-  }
-  
-  .timeline-item.left .timeline-dot, .timeline-item.right .timeline-dot {
-    left: -3px !important;
-    right: auto !important;
-  }
-  
-  .timeline-item.left .timeline-meta-row, .timeline-item.right .timeline-meta-row {
-    justify-content: flex-start !important;
+  .timeline-stages-bar {
+    gap: 8px;
+    padding: 12px 0;
+    margin-bottom: 10px;
   }
 
-  .timeline-item.left .timeline-desc, .timeline-item.right .timeline-desc {
-    text-align-last: left !important;
+  .timeline-horz-progress {
+    display: block;
+    top: 34px; /* Centered with circular badges center (15px top padding + 19px half-circle) */
+    left: 8%;
+    right: 8%;
   }
 
-  .timeline-year-huge {
-    font-size: 2.2rem !important;
-    right: auto !important;
-    left: 15px !important;
-    top: 10px !important;
+  .timeline-stage-btn {
+    padding: 15px 8px;
+    gap: 8px;
+    border-radius: 16px;
   }
 
-  .timeline-content {
-    padding: 25px !important;
+  .stage-btn-roman {
+    width: 38px;
+    height: 38px;
+    font-size: 0.9rem;
+    border-width: 2.5px;
+  }
+
+  .timeline-stage-btn .stage-btn-label {
+    font-size: 0.65rem;
+  }
+
+  .timeline-stage-btn .stage-btn-name {
+    font-size: 0.82rem;
+    max-width: 140px;
+  }
+
+  .timeline-stage-btn .stage-btn-years {
+    font-size: 0.72rem;
+    padding: 1px 6px;
+  }
+
+
+
+  .timeline-panels-wrapper {
+    margin-top: 20px;
+  }
+
+  .timeline-panel {
+    display: none;
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .timeline-panel.active {
+    display: flex;
+  }
+
+  .timeline-panel::before {
+    left: 50%;
+  }
+
+  .milestone-card {
+    width: calc(50% - 25px);
+    border-radius: 16px;
+  }
+
+  .timeline-panel .milestone-card:nth-child(odd)::after {
+    right: -34px;
+  }
+
+  .timeline-panel .milestone-card:nth-child(even)::after {
+    left: -34px;
+  }
+
+  .milestone-body {
+    padding: 16px;
+    gap: 8px;
+  }
+
+  .milestone-body h4 {
+    font-size: 1.05rem;
+    font-family: var(--font-main);
+  }
+
+  .milestone-body p {
+    font-size: 0.86rem;
   }
   
   .principles-container {
@@ -4305,50 +4614,141 @@ footer {
     margin: 0 !important;
   }
 
-  .timeline-wrapper::before {
-    left: 15px;
+  .timeline-wrapper {
+    padding: 20px 0 0;
   }
-  
-  .timeline-item {
-    padding-left: 42px !important;
-    margin-bottom: 30px !important;
+
+  .timeline-stages-bar {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-between !important;
+    gap: 4px !important;
+    padding: 10px 0 !important;
   }
-  
-  .timeline-item.left .timeline-dot, .timeline-item.right .timeline-dot {
-    left: -5px !important;
-    width: 36px !important;
-    height: 36px !important;
-    top: 15px !important;
+
+  .timeline-horz-progress {
+    display: block !important;
+    top: 22px !important; /* Centered with Roman circle (6px padding + 16px half-circle) */
+    left: 10% !important;
+    right: 10% !important;
   }
-  
-  .timeline-dot i {
+
+  .timeline-stage-btn {
+    flex: 1 !important;
+    padding: 6px 2px !important;
+    gap: 4px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .timeline-stage-btn .stage-btn-label,
+  .timeline-stage-btn .stage-btn-name {
+    display: none !important;
+  }
+
+  .stage-btn-roman {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 0.85rem !important;
+    border-width: 2px !important;
+  }
+
+  .timeline-stage-btn .stage-btn-years {
+    font-size: 0.65rem !important;
+    padding: 1px 6px !important;
+    background: rgba(0, 0, 0, 0.05) !important;
+    border-radius: 10px !important;
+    display: inline-block !important;
+  }
+
+  body.dark-mode .timeline-stage-btn .stage-btn-years {
+    background: rgba(255, 255, 255, 0.08) !important;
+  }
+
+
+
+  .timeline-panels-wrapper {
+    margin-top: 15px !important;
+  }
+
+  .timeline-panel {
+    display: none !important; /* Hide non-active panels on mobile */
+    flex-direction: column !important;
+    gap: 20px !important;
+    padding: 10px 0 !important;
+  }
+
+  .timeline-panel.active {
+    display: flex !important; /* Only display the active panel on mobile */
+  }
+
+  .timeline-panel::before {
+    display: none !important;
+  }
+
+  .timeline-progress-track,
+  .timeline-progress-bar {
+    left: 20px !important;
+    transform: none !important;
+    width: 4px !important;
+  }
+
+  .timeline-panel .milestone-card {
+    width: calc(100% - 40px) !important;
+    align-self: flex-end !important;
+    margin-left: 40px !important;
+    border-radius: 14px !important;
+    overflow: visible !important;
+  }
+
+  .timeline-panel .milestone-card::after {
+    left: -29px !important;
+    right: auto !important;
+    top: 18px !important;
     width: 14px !important;
     height: 14px !important;
   }
-  
-  .timeline-year-huge {
-    font-size: 1.8rem !important;
-    right: auto !important;
-    left: 10px !important;
-    top: 5px !important;
+
+  .milestone-year-badge {
+    font-size: 1rem !important;
+    padding: 10px 14px !important;
   }
-  
-  .timeline-content {
-    padding: 20px !important;
+
+  .milestone-icon {
+    width: 28px !important;
+    height: 28px !important;
+    top: 10px !important;
+    right: 12px !important;
   }
-  
-  .timeline-content h3 {
-    font-size: 1.1rem !important;
-    margin-bottom: 8px !important;
+
+  .milestone-icon i {
+    width: 14px !important;
+    height: 14px !important;
   }
-  
-  .timeline-date, .timeline-location {
-    font-size: 0.76rem !important;
+
+  .milestone-body {
+    padding: 12px 14px 16px !important;
+    gap: 6px !important;
   }
-  
-  .timeline-meta-row {
-    gap: 8px 12px !important;
-    margin-bottom: 10px !important;
+
+  .milestone-meta {
+    font-size: 0.74rem !important;
+    gap: 6px 12px !important;
+  }
+
+  .milestone-body h4 {
+    font-size: 0.95rem !important;
+    font-family: var(--font-main) !important; /* Optimized for Vietnamese diacritics */
+    line-height: 1.4 !important;
+  }
+
+  .milestone-body p {
+    font-size: 0.82rem !important;
+    line-height: 1.55 !important;
   }
 
   /* Thành tựu nổi bật (Mobile < 768px) */
@@ -4518,5 +4918,278 @@ footer {
 
   .stat-lbl {
     order: 1;
+  }
+}
+
+/* Animation default for mobile/tablet vertical timeline */
+.timeline-panel.active .milestone-card {
+  animation: slideInCardVertical 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.timeline-panel.active .milestone-card:nth-child(1) { animation-delay: 0.05s; }
+.timeline-panel.active .milestone-card:nth-child(2) { animation-delay: 0.12s; }
+.timeline-panel.active .milestone-card:nth-child(3) { animation-delay: 0.19s; }
+.timeline-panel.active .milestone-card:nth-child(4) { animation-delay: 0.26s; }
+.timeline-panel.active .milestone-card:nth-child(5) { animation-delay: 0.33s; }
+
+@keyframes slideInCardVertical {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slider navigation buttons default (hidden on mobile/tablet) */
+.timeline-nav-btn {
+  display: none !important;
+}
+
+/* ==========================================================================
+   DESKTOP HORIZONTAL TIMELINE LAYOUT (PC SCREEN ONLY)
+   ========================================================================== */
+@media (min-width: 993px) {
+  .timeline-slider-container {
+    position: relative;
+    width: 100%;
+  }
+
+  /* Navigation Buttons */
+  .timeline-nav-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: calc(50% + 15px); /* Centered vertically relative to the cards */
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--border-color);
+    color: var(--primary-color);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(8px);
+  }
+  
+  body.dark-mode .timeline-nav-btn {
+    background: rgba(30, 41, 59, 0.9);
+    color: var(--accent-color);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  }
+  
+  .timeline-nav-btn:hover {
+    background: var(--primary-color);
+    color: #FFFFFF;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 12px 28px rgba(0, 45, 98, 0.25);
+    border-color: var(--primary-color);
+  }
+  
+  body.dark-mode .timeline-nav-btn:hover {
+    background: var(--accent-color);
+    color: #0f172a;
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 12px 28px rgba(255, 193, 7, 0.3);
+    border-color: var(--accent-color);
+  }
+  
+  .timeline-nav-btn.prev-btn {
+    left: -25px;
+  }
+  
+  .timeline-nav-btn.next-btn {
+    right: -25px;
+  }
+  
+  .timeline-nav-btn.disabled {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none;
+  }
+
+  .timeline-nav-btn i {
+    width: 22px;
+    height: 22px;
+    stroke-width: 3px;
+  }
+  .active-stage-header {
+    display: none !important;
+  }
+
+  .timeline-panels-wrapper {
+    margin-top: 0 !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 10px;
+    scrollbar-width: none; /* Hide scrollbar Firefox */
+  }
+  
+  /* Hide scrollbar Chrome, Safari, Edge */
+  .timeline-panels-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .timeline-panel {
+    display: none;
+    position: relative;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: stretch !important; /* Stretch cards to have the exact same height */
+    justify-content: flex-start !important;
+    gap: 40px !important;
+    padding: 30px 20px 20px 20px !important; /* Reduced padding-top to 30px */
+    min-width: 100% !important;
+    width: max-content !important; /* Expand to fit children */
+  }
+  
+  .timeline-panel.active {
+    display: inline-flex !important;
+  }
+  
+  /* Hide the static horizontal line, as it is replaced by the dynamic progress bar */
+  .timeline-panel::before {
+    display: none !important;
+  }
+  
+  /* Horizontal timeline progress rail */
+  .timeline-progress-track {
+    display: block !important;
+    position: absolute !important;
+    top: 28px !important; /* Centered with connector dots (y = 30px, since height = 4px) */
+    height: 4px !important;
+    background: var(--text-muted) !important;
+    border-radius: 2px !important;
+    z-index: 1 !important;
+    opacity: 0.25 !important;
+    left: auto;
+    transform: none;
+    width: auto;
+  }
+  
+  /* Dynamic glowing progress bar */
+  .timeline-progress-bar {
+    display: block !important;
+    position: absolute !important;
+    top: 28px !important; /* Centered with connector dots (y = 30px, since height = 4px) */
+    height: 4px !important;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color)) !important;
+    border-radius: 2px !important;
+    z-index: 2 !important;
+    box-shadow: 0 0 8px var(--accent-color), 0 0 15px rgba(255, 193, 7, 0.4) !important;
+    transition: width 0.3s cubic-bezier(0.1, 0.8, 0.2, 1) !important;
+    left: auto;
+    transform: none;
+    width: auto;
+  }
+  
+  .timeline-panel .milestone-card {
+    flex: 0 0 340px !important; /* Card width */
+    width: 340px !important;
+    margin-top: 30px !important; /* Space above card for connector dot & stem */
+    align-self: auto !important; /* Let stretch handle vertical alignment */
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: visible !important; /* Allow pseudo-element stems & dots to display outside card */
+  }
+  
+  /* Reset alternating vertical alignments */
+  .timeline-panel .milestone-card:nth-child(odd),
+  .timeline-panel .milestone-card:nth-child(even) {
+    align-self: auto !important;
+  }
+
+  /* Stretch inner milestone-body to match card height */
+  .timeline-panel .milestone-card .milestone-body {
+    flex: 1 1 auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* Enhancing titles in cards to match brand colors */
+  .timeline-panel .milestone-card .milestone-body h4 {
+    color: var(--primary-color) !important;
+    transition: color 0.3s ease !important;
+  }
+  
+  body.dark-mode .timeline-panel .milestone-card .milestone-body h4 {
+    color: var(--accent-color) !important;
+  }
+  
+  .timeline-panel .milestone-card:hover .milestone-body h4 {
+    color: var(--accent-color) !important;
+  }
+  
+  body.dark-mode .timeline-panel .milestone-card:hover .milestone-body h4 {
+    color: #FFFFFF !important;
+  }
+  
+  /* Stem connecting dot to card */
+  .timeline-panel .milestone-card::before {
+    content: '' !important;
+    position: absolute !important;
+    top: -30px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 2px !important;
+    height: 30px !important;
+    background: var(--border-color) !important;
+    z-index: 1 !important;
+    transition: background 0.3s ease !important;
+  }
+  
+  .timeline-panel .milestone-card:hover::before {
+    background: var(--accent-color) !important;
+  }
+  
+  /* Dots placed on the horizontal line, centered above each card */
+  .timeline-panel .milestone-card::after {
+    top: -39px !important; /* Center aligns with top: 60px of parent */
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%) !important;
+  }
+  
+  .timeline-panel .milestone-card:nth-child(odd)::after,
+  .timeline-panel .milestone-card:nth-child(even)::after {
+    left: 50% !important;
+    right: auto !important;
+    top: -39px !important;
+    transform: translateX(-50%) !important;
+  }
+  
+  .timeline-panel .milestone-card:hover::after {
+    transform: translateX(-50%) scale(1.2) !important;
+  }
+
+  /* Horizontal card selected overrides */
+  .timeline-panel .milestone-card.selected::after {
+    transform: translateX(-50%) scale(1.2) !important;
+  }
+  
+  .timeline-panel .milestone-card.selected::before {
+    background: var(--accent-color) !important;
+  }
+
+  /* Horizontal card entry slide-in animation override */
+  .timeline-panel.active .milestone-card {
+    animation: slideInCardHorizontal 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  
+  @keyframes slideInCardHorizontal {
+    0% {
+      opacity: 0;
+      transform: translateX(45px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 }

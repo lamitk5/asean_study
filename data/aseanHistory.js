@@ -119,104 +119,117 @@ const aseanHistoryData = {
         title: "Khai sinh Hiệp hội",
         date: "Ngày 8 tháng 8 năm 1967",
         location: "Bangkok, Thái Lan",
-        description: "Năm ngoại trưởng sáng lập ký kết Tuyên bố Bangkok tại Cung điện Saranrom. ASEAN chính thức ra đời với 5 thành viên ban đầu.",
-        category: "establishment"
+        description: "Ngoại trưởng của 5 quốc gia Đông Nam Á ký kết Tuyên bố Bangkok tại Cung điện Saranrom, chính thức đặt nền móng pháp lý cho sự ra đời của Hiệp hội. Sự kiện này đánh dấu bước chuyển quan trọng, mở ra kỷ nguyên hợp tác đa phương trong khu vực nhằm duy trì hòa bình và ổn định chính trị.",
+        category: "establishment",
+        stage: 1
       },
       {
         year: "1976",
         title: "Hội nghị Bali Concord I & Ký Hiệp ước TAC",
         date: "Tháng 2 năm 1976",
         location: "Bali, Indonesia",
-        description: "Hội nghị Cấp cao ASEAN lần thứ nhất diễn ra. Ký kết Hiệp ước Thân thiện và Hợp tác ở Đông Nam Á (TAC) và Tuyên bố Bali Concord I, chính thức thiết lập hệ thống nguyên tắc ứng xử và khuôn khổ hợp tác chính trị - an ninh giữa các nước thành viên.",
-        category: "treaty"
+        description: "Hội nghị Cấp cao ASEAN lần thứ nhất diễn ra. Việc ký kết Hiệp ước Thân thiện và Hợp tác (TAC) và Tuyên bố Bali Concord I đã chính thức hóa các nguyên tắc ứng xử cơ bản (đặc biệt là tôn trọng độc lập, chủ quyền và không can thiệp nội bộ), đặt nền tảng pháp lý và chính trị lâu dài cho sự hợp tác đa phương.",
+        category: "treaty",
+        stage: 1
       },
       {
         year: "1984",
         title: "Kết nạp thành viên thứ 6",
         date: "Ngày 7 tháng 1 năm 1984",
         location: "Jakarta, Indonesia",
-        description: "Chỉ một tuần sau khi giành độc lập hoàn toàn từ Anh, Vương quốc Brunei Darussalam chính thức gia nhập ASEAN, mở đầu cho tiến trình mở rộng của hiệp hội.",
-        category: "expansion"
+        description: "Vương quốc Brunei Darussalam chính thức được kết nạp làm thành viên thứ 6 ngay sau khi giành độc lập. Sự kiện này khởi đầu cho bước chuyển dịch lịch sử từ một nhóm tiểu liên kết ban đầu hướng tới mục tiêu quy tụ toàn bộ các quốc gia Đông Nam Á.",
+        category: "expansion",
+        stage: 2
       },
       {
         year: "1992",
         title: "Khởi xướng Khu vực Mậu dịch Tự do (AFTA)",
         date: "Tháng 1 năm 1992",
         location: "Singapore",
-        description: "Tại Hội nghị cấp cao lần thứ 4, ASEAN ký kết thỏa thuận thành lập Khu vực Mậu dịch Tự do ASEAN (AFTA) và áp dụng Chương trình Thuế quan ưu đãi có hiệu lực chung (CEPT) nhằm giảm dần thuế quan nội khối xuống từ 0-5%.",
-        category: "economy"
+        description: "Tại Hội nghị Cấp cao lần thứ 4, ASEAN thông qua Hiệp định về Khu vực Mậu dịch Tự do (AFTA) và Chương trình CEPT. Đây là cột mốc lịch sử trong tiến trình liên kết kinh tế khu vực, thúc đẩy tự do hóa thương mại và nâng cao năng lực cạnh tranh thu hút đầu tư nước ngoài.",
+        category: "economy",
+        stage: 2
       },
       {
         year: "1995",
         title: "Việt Nam gia nhập ASEAN",
         date: "Ngày 28 tháng 7 năm 1995",
         location: "Bandar Seri Begawan, Brunei",
-        description: "Việt Nam chính thức trở thành thành viên thứ 7 tại Hội nghị Bộ trưởng Ngoại giao ASEAN lần thứ 28 (AMM-28). Sự kiện lịch sử này đánh dấu sự kết thúc của thời kỳ đối đầu, mở ra kỷ nguyên hòa bình, hòa hợp và liên kết toàn diện tại Đông Nam Á.",
-        category: "expansion"
+        description: "Việt Nam chính thức gia nhập và trở thành thành viên thứ 7 của ASEAN tại Hội nghị Ngoại trưởng lần thứ 28 (AMM-28). Quyết sách lịch sử này chính thức bình thường hóa quan hệ chính trị trong khu vực, khép lại thời kỳ đối đầu Đông Dương, mở ra giai đoạn hòa hợp dân tộc, hợp tác toàn diện và cùng phát triển.",
+        category: "expansion",
+        stage: 2
       },
       {
         year: "1997",
         title: "Lào, Myanmar gia nhập & Tầm nhìn 2020",
         date: "Ngày 23 tháng 7 năm 1997",
         location: "Subang Jaya, Malaysia",
-        description: "Lào và Myanmar chính thức được kết nạp làm thành viên thứ 8 và thứ 9. Đồng thời, Hội nghị thông qua văn kiện mang tính chiến lược 'Tầm nhìn ASEAN 2020' vạch ra hướng đi đưa ASEAN trở thành một nhóm các quốc gia hòa hợp, năng động và gắn kết.",
-        category: "expansion"
+        description: "Kết nạp nước Cộng hòa Dân chủ Nhân dân Lào và Liên bang Myanmar làm thành viên thứ 8 và 9. Đồng thời, Hiệp hội thông qua 'Tầm nhìn ASEAN 2020', định hướng chiến lược đưa ASEAN trở thành một cộng đồng các quốc gia Đông Nam Á hòa hợp, gắn kết và tự cường.",
+        category: "expansion",
+        stage: 2
       },
       {
         year: "1999",
         title: "Campuchia gia nhập - Hoàn tất ý tưởng ASEAN-10",
         date: "Ngày 30 tháng 4 năm 1999",
         location: "Hà Nội, Việt Nam",
-        description: "Dưới sự hỗ trợ của Việt Nam, Vương quốc Campuchia chính thức được kết nạp làm thành viên thứ 10 tại buổi lễ đặc biệt ở Hà Nội. ASEAN hoàn thành giấc mơ quy tụ toàn bộ 10 quốc gia Đông Nam Á địa lý vào chung một mái nhà.",
-        category: "expansion"
+        description: "Vương quốc Campuchia chính thức được kết nạp làm thành viên thứ 10 tại Lễ kết nạp đặc biệt tổ chức ở Hà Nội. Sự kiện này hoàn tất ý tưởng về một 'ASEAN-10', quy tụ toàn bộ các quốc gia Đông Nam Á lục địa và hải đảo vào một tổ chức hợp tác chung, xóa bỏ hoàn toàn ranh giới chia rẽ địa chính trị trước đây.",
+        category: "expansion",
+        stage: 2
       },
       {
         year: "2003",
         title: "Thông qua Tuyên bố Bali Concord II",
         date: "Tháng 10 năm 2003",
         location: "Bali, Indonesia",
-        description: "Các nhà lãnh đạo ASEAN thông qua Tuyên bố Bali Concord II, chính thức đặt mục tiêu xây dựng một Cộng đồng ASEAN vững mạnh dựa trên 3 trụ cột cốt lõi: Chính trị - An ninh (APSC), Kinh tế (AEC) và Văn hóa - Xã hội (ASCC).",
-        category: "strategy"
+        description: "Các nguyên thủ quốc gia ký kết Tuyên bố Bali Concord II, chính thức xác lập mục tiêu chiến lược: xây dựng Cộng đồng ASEAN vững mạnh trên ba trụ cột cốt lõi bao gồm Cộng đồng Chính trị - An ninh (APSC), Cộng đồng Kinh tế (AEC) và Cộng đồng Văn hóa - Xã hội (ASCC).",
+        category: "strategy",
+        stage: 3
       },
       {
         year: "2007",
         title: "Ký kết Hiến chương ASEAN",
         date: "Ngày 20 tháng 11 năm 2007",
         location: "Singapore",
-        description: "Tại Hội nghị Thượng đỉnh ASEAN lần thứ 13, Hiến chương ASEAN được ký kết. Hiến chương đóng vai trò như một 'Hiến pháp' định hình tư cách pháp nhân, cấu trúc tổ chức và các nguyên tắc vận hành của ASEAN.",
-        category: "treaty"
+        description: "Tại Hội nghị Cấp cao lần thứ 13, Hiến chương ASEAN được thông qua và ký kết. Văn kiện này đóng vai trò như một 'Hiến pháp', chính thức hóa tư cách pháp lý quốc tế, hoàn thiện cơ cấu tổ chức và chuẩn hóa hệ thống vận hành nội khối.",
+        category: "treaty",
+        stage: 3
       },
       {
         year: "2008",
         title: "Hiến chương ASEAN chính thức có hiệu lực",
         date: "Ngày 15 tháng 12 năm 2008",
         location: "Jakarta, Indonesia",
-        description: "Hiến chương ASEAN chính thức có hiệu lực sau khi được tất cả 10 nước thành viên phê chuẩn, chuyển đổi ASEAN từ một hiệp hội lỏng lẻo thành một tổ chức quốc tế dựa trên luật pháp và có đầy đủ tư cách pháp nhân.",
-        category: "treaty"
+        description: "Hiến chương ASEAN chính thức đi vào cuộc sống sau khi được toàn bộ các quốc gia thành viên phê chuẩn. Sự kiện này đánh dấu bước phát triển nhảy vọt của ASEAN từ một diễn đàn hợp tác lỏng lẻo sang một tổ chức khu vực dựa trên luật pháp và có đầy đủ tư cách pháp nhân quốc tế.",
+        category: "treaty",
+        stage: 3
       },
       {
         year: "2015",
         title: "Chính thức thành lập Cộng đồng ASEAN (AC)",
         date: "Ngày 31 tháng 12 năm 2015",
         location: "Kuala Lumpur, Malaysia",
-        description: "Cộng đồng ASEAN (ASEAN Community - AC) chính thức được tuyên bố hình thành, tạo bước ngoặt vĩ đại biến Đông Nam Á thành một thực thể chính trị - kinh tế - xã hội liên kết chặt chẽ, tự cường và thịnh vượng chung.",
-        category: "strategy"
+        description: "Tuyên bố hình thành Cộng đồng ASEAN (AC) chính thức có hiệu lực. Đây là sự kiện trọng đại nhất kể từ ngày thành lập, hiện thực hóa mục tiêu liên kết sâu rộng về chính trị, kinh tế và văn hóa - xã hội, chuyển hóa Đông Nam Á thành một thực thể liên kết năng động và tự cường.",
+        category: "strategy",
+        stage: 4
       },
       {
         year: "2025",
         title: "Timor-Leste chính thức gia nhập ASEAN",
         date: "Ngày 26 tháng 10 năm 2025",
         location: "Kuala Lumpur, Malaysia",
-        description: "Timor-Leste chính thức trở thành thành viên thứ 11 của ASEAN tại Hội nghị Cấp cao ASEAN lần thứ 47 diễn ra ở Kuala Lumpur, Malaysia, đánh dấu lần mở rộng đầu tiên của Hiệp hội kể từ khi Campuchia gia nhập năm 1999.",
-        category: "expansion"
+        description: "Nước Cộng hòa Dân chủ Timor-Leste được kết nạp làm thành viên chính thức thứ 11 tại Hội nghị Cấp cao lần thứ 47 (Kuala Lumpur). Đây là bước đột phá mở rộng thành viên đầu tiên của thế kỷ XXI, hoàn thiện bản đồ địa chính trị hợp tác toàn diện của khu vực Đông Nam Á.",
+        category: "expansion",
+        stage: 4
       },
       {
         year: "Hiện tại",
         title: "Khẳng định vai trò trung tâm của ASEAN-11",
         date: "Hiện tại",
         location: "Khu vực Đông Nam Á",
-        description: "Hiệp hội với 11 nước thành viên kiên trì khẳng định Vai trò trung tâm (Centrality) trong các cấu trúc an ninh và kinh tế khu vực châu Á - Thái Bình Dương, phát huy sức mạnh của sự đoàn kết và tự cường.",
-        category: "strategy"
+        description: "ASEAN với cấu trúc 11 thành viên tiếp tục giữ vững và khẳng định Vai trò trung tâm (Centrality) trong các cấu trúc địa chính trị, kinh tế và an ninh tại khu vực châu Á - Thái Bình Dương, phát huy sức mạnh tự lực, tự cường trước sự cạnh tranh chiến lược của các cường quốc lớn.",
+        category: "strategy",
+        stage: 4
       }
     ]
   },
